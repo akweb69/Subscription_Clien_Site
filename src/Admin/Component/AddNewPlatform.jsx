@@ -3,6 +3,8 @@ import { motion } from "framer-motion";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Eye, EyeOff } from "lucide-react";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 
 const AddNewPlatform = () => {
@@ -12,6 +14,7 @@ const AddNewPlatform = () => {
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     const [showPassword, setShowPassword] = useState(false);
+    const base_url = import.meta.env.VITE_BASE_URL
 
 
     // submit function
@@ -33,11 +36,24 @@ const AddNewPlatform = () => {
                 platformEmail,
                 platformPassword,
             });
+            const res = await axios.post(`${base_url}/platform`, {
+                platformName,
+                platformEmail,
+                platformPassword
+            })
+            if (res.data.acknowledged) {
+                console.log(res);
+                toast.success("Platform added successfully!");
+                // reset form
+                setPlatformName("");
+                setPlatformEmail("");
+                setPlatformPassword("");
+            }
+            else {
+                toast.error("Something went wrong!");
+                setErrorMessage("Something went wrong!");
+            }
 
-            // reset form
-            setPlatformName("");
-            setPlatformEmail("");
-            setPlatformPassword("");
         } catch (err) {
             setErrorMessage("Something went wrong!");
         } finally {
