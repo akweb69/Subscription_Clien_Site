@@ -26,10 +26,24 @@ const UserDash = () => {
 
             {/* Stats */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                <StatCard icon={ShoppingBag} title="Total Orders" value="12" color="bg-emerald-500" />
-                <StatCard icon={Package} title="Pending" value="3" color="bg-amber-500" />
+                <StatCard icon={ShoppingBag} title="Total Orders" value="2" color="bg-emerald-500" />
+                <StatCard icon={Package} title="Pending" value="1" color="bg-amber-500" />
                 <StatCard icon={Clock} title="Last Order" value="Jan 12" color="bg-blue-500" />
-                <StatCard icon={Heart} title="Wishlist" value="19" color="bg-rose-500" />
+                <StatCard icon={Heart} title="Complete Orders" value="1" color="bg-rose-500" />
+            </div>
+            {/* your subscriptions */}
+            <div className="p-4 w-full rounded-xl bg-emerald-50 border border-emerald-100 shadow">
+                <div className="flex items-center gap-2
+                ">
+
+                    <p className="w-3 h-3 rounded-full bg-green-500 animate-pulse"></p>
+                    <h2 className="text-lg font-semibold">Your Active Subscriptions</h2>
+
+
+                </div>
+                <div className="min-h-[150px] flex items-center justify-center">
+                    <p className="text-rose-700 text-xl md:text-2xl font-semibold">You have no active subscription.</p>
+                </div>
             </div>
 
             {/* Recent Activity / Placeholder sections */}
