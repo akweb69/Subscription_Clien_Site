@@ -22,7 +22,7 @@ const AdminLayout = () => {
     };
 
     return (
-        <div className="flex min-h-screen w-full flex-col lg:flex-row bg-gray-50">
+        <div className="flex h-screen w-full flex-col lg:flex-row bg-gray-50">
             {/* Sidebar */}
             <AdminAsideBar />
 

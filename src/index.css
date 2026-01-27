@@ -121,3 +121,15 @@
     @apply bg-background text-foreground;
   }
 }
+
+body {
+  font-family: "Inter", sans-serif;
+  max-width: 1650px;
+  margin: 0 auto;
+}
+.logoFont {
+  font-family: "Playfair Display", serif;
+}
+.welcomeFont {
+  font-family: "Dancing Script", cursive;
+}

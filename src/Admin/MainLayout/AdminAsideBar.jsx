@@ -9,17 +9,21 @@ import {
     ChevronLeft,
     ChevronRight,
     Menu,
-    FolderKanban
+    FolderKanban,
+    Home
 } from 'lucide-react'; // ← or use any icon library you prefer
 
 import './AdminAsideBar.css'; // we'll create this next
+import { Link } from 'react-router-dom';
 
 const AdminAsideBar = () => {
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [isMobileOpen, setIsMobileOpen] = useState(false);
+    const [activeTab, setActiveTab] = useState(0);
 
     const menuItems = [
         { icon: LayoutDashboard, label: 'Dashboard', href: '/admin' },
+        { icon: Home, label: 'HomePage', href: '/' },
         { icon: FolderKanban, label: 'Management', href: '/admin/management' },
         { icon: Users, label: 'Users', href: '/admin/users' },
         { icon: ShoppingBag, label: 'Orders', href: '/admin/orders' },
@@ -76,18 +80,20 @@ const AdminAsideBar = () => {
                 <nav className="flex-1 px-3 py-6 overflow-y-auto">
                     <ul className="space-y-1">
                         {menuItems.map((item, index) => (
-                            <li key={index}>
-                                <a
-                                    href={item.href}
+                            <li
+                                onClick={() => setActiveTab(index)}
+                                key={index}>
+                                <Link
+                                    to={item.href}
                                     className={`
                     flex items-center gap-3 px-3 py-3 rounded-lg
-                    hover:bg-gray-800 transition-colors
+                    hover:bg-gray-800 transition-colors ${activeTab === index ? 'bg-emerald-800' : ''}
                     ${isCollapsed ? 'justify-center' : ''}
                   `}
                                 >
                                     <item.icon size={22} />
                                     {!isCollapsed && <span>{item.label}</span>}
-                                </a>
+                                </Link>
                             </li>
                         ))}
                     </ul>

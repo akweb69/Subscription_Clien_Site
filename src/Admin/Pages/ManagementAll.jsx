@@ -1,6 +1,7 @@
 import { ListPlus, Settings } from 'lucide-react';
 import React from 'react';
 import AddNewPlatform from '../Component/AddNewPlatform';
+import ManagePlatform from '../Component/ManagePlatform';
 
 const ManagementAll = () => {
     const allTabs = [
@@ -38,6 +39,10 @@ const ManagementAll = () => {
             {/* all sections */}
             {
                 activeTab === 0 && <AddNewPlatform />
+
+            }
+            {
+                activeTab === 1 && <ManagePlatform />
             }
         </div>
     );

@@ -10,6 +10,7 @@ import UserDash from "@/Admin/User/Layout/UserDash";
 import SignIn from "@/Pages/SignIn";
 import SignUp from "@/Pages/SignUp";
 import ManagementAll from "@/Admin/Pages/ManagementAll";
+import Plans from "@/Pages/Plans";
 
 const AppRoutes = () => {
     return (
@@ -19,6 +20,7 @@ const AppRoutes = () => {
                 <Route path="/about" element={<About />} />
                 <Route path="/signin" element={<SignIn />} />
                 <Route path="/signup" element={<SignUp />} />
+                <Route path="/plans" element={<Plans />} />
             </Route>
 
             {/* admin routes */}
