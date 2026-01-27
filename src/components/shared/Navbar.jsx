@@ -1,5 +1,5 @@
 // components/Navbar.tsx
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -11,6 +11,7 @@ import {
     UserPlus,
     Crown,
 } from "lucide-react";
+import { AppContext } from "@/context/AppContext";
 
 const navItems = [
     { name: "Home", path: "/", icon: Home },
@@ -19,6 +20,7 @@ const navItems = [
 
 
 export default function Navbar() {
+    const { user, loading, logout } = useContext(AppContext);
     const [isOpen, setIsOpen] = useState(false);
 
     return (
@@ -69,30 +71,56 @@ export default function Navbar() {
                             </NavLink>
                         ))}
 
-                        <div className="flex items-center gap-2 pl-4 ml-4 border-l">
-                            <Button
-                                variant="ghost"
-                                size="sm"
-                                className="gap-1.5 text-muted-foreground hover:text-foreground"
-                                asChild
-                            >
-                                <Link to="/signin">
-                                    <LogIn className="h-4 w-4" />
-                                    Sign in
-                                </Link>
-                            </Button>
 
-                            <Button
-                                size="sm"
-                                className="bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 shadow-md shadow-violet-500/20"
-                                asChild
-                            >
-                                <Link to="/signup" className="gap-1.5">
-                                    <UserPlus className="h-4 w-4" />
-                                    Sign up
-                                </Link>
-                            </Button>
-                        </div>
+                        {
+                            user ? <div className="">
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    className="bg-linear-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 shadow-md shadow-violet-500/20"
+                                    asChild
+                                >
+                                    <Link to="/dashboard" className="gap-1.5 text-white">
+                                        <UserPlus className="h-4 w-4" />
+                                        Dashboard
+                                    </Link>
+                                </Button>
+                                {/* logout */}
+                                <Button
+                                    onClick={logout}
+                                    variant="ghost"
+                                    size="sm"
+                                    className="gap-1.5 text-muted-foreground hover:text-foreground"
+                                >
+                                    <LogIn className="h-4 w-4" />
+                                    Logout
+                                </Button>
+
+                            </div> : <div className="flex items-center gap-2 pl-4 ml-4 border-l">
+                                <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    className="gap-1.5 text-muted-foreground hover:text-foreground"
+                                    asChild
+                                >
+                                    <Link to="/signin">
+                                        <LogIn className="h-4 w-4" />
+                                        Sign in
+                                    </Link>
+                                </Button>
+
+                                <Button
+                                    size="sm"
+                                    className="bg-linear-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 shadow-md shadow-violet-500/20"
+                                    asChild
+                                >
+                                    <Link to="/signup" className="gap-1.5">
+                                        <UserPlus className="h-4 w-4" />
+                                        Sign up
+                                    </Link>
+                                </Button>
+                            </div>
+                        }
                     </nav>
 
                     {/* Mobile menu button */}
@@ -164,7 +192,7 @@ export default function Navbar() {
                                 </Button>
 
                                 <Button
-                                    className="justify-start gap-2 bg-gradient-to-r from-violet-600 to-indigo-600"
+                                    className="justify-start gap-2 bg-linear-to-r from-violet-600 to-indigo-600"
                                     asChild
                                     onClick={() => setIsOpen(false)}
                                 >
