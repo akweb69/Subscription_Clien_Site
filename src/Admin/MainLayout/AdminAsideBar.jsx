@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
     LayoutDashboard,
     Users,
@@ -15,11 +15,14 @@ import {
 
 import './AdminAsideBar.css'; // we'll create this next
 import { Link } from 'react-router-dom';
+import { AppContext } from '@/context/AppContext';
 
 const AdminAsideBar = () => {
+    const { logout } = useContext(AppContext);
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [isMobileOpen, setIsMobileOpen] = useState(false);
     const [activeTab, setActiveTab] = useState(0);
+
 
     const menuItems = [
         { icon: LayoutDashboard, label: 'Dashboard', href: '/admin' },
@@ -101,17 +104,17 @@ const AdminAsideBar = () => {
 
                 {/* Footer / Logout */}
                 <div className="p-4 border-t border-gray-800">
-                    <a
-                        href="/logout"
+                    <button
+                        onClick={logout}
                         className={`
-              flex items-center gap-3 px-3 py-3 rounded-lg
+              flex items-center gap-3 px-3 py-3 w-full rounded-lg
               hover:bg-red-900/30 text-red-400 transition-colors
               ${isCollapsed ? 'justify-center' : ''}
             `}
                     >
                         <LogOut size={22} />
                         {!isCollapsed && <span>Logout</span>}
-                    </a>
+                    </button>
                 </div>
             </aside>
 

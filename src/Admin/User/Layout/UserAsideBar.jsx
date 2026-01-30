@@ -1,20 +1,25 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
     LayoutDashboard, User, CreditCard, History, Heart, Settings, LogOut,
-    ChevronLeft, ChevronRight, Menu
+    ChevronLeft, ChevronRight, Menu,
+    Home
 } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { AppContext } from '@/context/AppContext';
 
 const UserAsideBar = () => {
+    const { logout } = useContext(AppContext);
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [isMobileOpen, setIsMobileOpen] = useState(false);
 
     const menuItems = [
+        { icon: Home, label: 'Home Page', href: '/' },
         { icon: LayoutDashboard, label: 'Dashboard', href: '/dashboard' },
         { icon: User, label: 'Profile', href: '/dashboard/profile' },
-        { icon: CreditCard, label: 'Payments', href: '/dashboard/payments' },
+        // { icon: CreditCard, label: 'Payments', href: '/dashboard/payments' },
         { icon: History, label: 'Order History', href: '/dashboard/orders' },
-        { icon: Heart, label: 'Wishlist', href: '/dashboard/wishlist' },
-        { icon: Settings, label: 'Settings', href: '/dashboard/settings' },
+        // { icon: Heart, label: 'Wishlist', href: '/dashboard/wishlist' },
+        // { icon: Settings, label: 'Settings', href: '/dashboard/settings' },
     ];
 
     return (
@@ -53,8 +58,8 @@ const UserAsideBar = () => {
                     <ul className="space-y-1.5">
                         {menuItems.map((item, i) => (
                             <li key={i}>
-                                <a
-                                    href={item.href}
+                                <Link
+                                    to={item.href}
                                     className={`
                     flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700
                     hover:bg-gray-100 transition-colors
@@ -63,7 +68,7 @@ const UserAsideBar = () => {
                                 >
                                     <item.icon size={22} />
                                     {!isCollapsed && <span>{item.label}</span>}
-                                </a>
+                                </Link>
                             </li>
                         ))}
                     </ul>
@@ -71,17 +76,17 @@ const UserAsideBar = () => {
 
                 {/* Logout */}
                 <div className="p-4 border-t">
-                    <a
-                        href="/logout"
+                    <button
+                        onClick={logout}
                         className={`
-              flex items-center gap-3 px-4 py-3 rounded-lg text-red-600
+              flex items-center gap-3 px-4 py-3 w-full rounded-lg text-red-600
               hover:bg-red-50 transition-colors
               ${isCollapsed ? 'justify-center' : ''}
             `}
                     >
                         <LogOut size={22} />
                         {!isCollapsed && <span>Logout</span>}
-                    </a>
+                    </button>
                 </div>
             </aside>
 

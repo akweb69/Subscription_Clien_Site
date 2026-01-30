@@ -5,12 +5,12 @@ import ManagePlatform from '../Component/ManagePlatform';
 import AddNewSubscription from './AddNewSubscription';
 import ManageSubscription from './ManageSubscription';
 
-const ManagementAll = () => {
+const OrdersManagement = () => {
     const allTabs = [
-        { name: "Add New Platform", icon: ListPlus },
-        { name: "Manage Platform", icon: Settings },
-        { name: "Add New Subscription", icon: ListPlus },
-        { name: "Manage Subscription", icon: Settings },
+        { name: "All Orders", icon: ListPlus },
+        { name: "Manage Orders", icon: Settings },
+        // { name: "Add New Subscription", icon: ListPlus },
+        // { name: "Manage Subscription", icon: Settings },
     ]
     // set active tab----->
     const [activeTab, setActiveTab] = React.useState(0);
@@ -19,7 +19,7 @@ const ManagementAll = () => {
         <div className=''>
             {/* heding */}
             <div className="">
-                <h1 className="text-xl md:text-2xl font-semibold  text-gray-900">Manage Your All Subscription and Platforms</h1>
+                <h1 className="text-xl md:text-2xl font-semibold  text-gray-900">Manage Your All Orders</h1>
             </div>
             {/* tab sections */}
             <div className="grid my-4 w-full grid-cols-2 md:grid-cols-6 gap-4 items-center">
@@ -56,4 +56,4 @@ const ManagementAll = () => {
     );
 };
 
-export default ManagementAll;
+export default OrdersManagement;
