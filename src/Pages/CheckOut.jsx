@@ -90,6 +90,7 @@ const CheckOut = () => {
                 planId: plan?._id,
                 planName: plan?.subscriptionName,
                 amount: plan?.price,
+                validityDays: plan?.validityDays,
                 paymentMethod: 'bkash',
                 senderNumber: bkashNumber,
                 transactionId: trxId,
