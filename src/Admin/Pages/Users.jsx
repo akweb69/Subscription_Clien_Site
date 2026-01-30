@@ -152,7 +152,7 @@ const Users = () => {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 flex items-center justify-center ">
+            <div className="min-h-screen bg-linear-to-br from-emerald-50 via-teal-50 to-cyan-50 flex items-center justify-center ">
                 <motion.div
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
@@ -172,7 +172,7 @@ const Users = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 py-6 px-4 sm:px-6 lg:px-8 rounded-xl">
+        <div className="min-h-screen bg-linear-to-br from-emerald-50 via-teal-50 to-cyan-50 py-6 px-4 sm:px-6 lg:px-8 rounded-xl">
             <Toaster position="top-right" />
 
             <div className="max-w-7xl mx-auto">
@@ -188,12 +188,12 @@ const Users = () => {
                             <motion.div
                                 whileHover={{ rotate: 360, scale: 1.1 }}
                                 transition={{ duration: 0.6 }}
-                                className="w-14 h-14 bg-gradient-to-br from-teal-500 to-cyan-600 rounded-2xl flex items-center justify-center shadow-xl shadow-teal-200"
+                                className="w-14 h-14 bg-linear-to-br from-teal-500 to-cyan-600 rounded-2xl flex items-center justify-center shadow-xl shadow-teal-200"
                             >
                                 <UsersIcon className="w-7 h-7 text-white" />
                             </motion.div>
                             <div>
-                                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-teal-700 via-cyan-700 to-emerald-700 bg-clip-text text-transparent">
+                                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-linear-to-r from-teal-700 via-cyan-700 to-emerald-700 bg-clip-text text-transparent">
                                     Users
                                 </h1>
                                 <p className="text-slate-600 text-sm sm:text-base mt-1">
@@ -277,14 +277,14 @@ const Users = () => {
                                 whileHover="hover"
                                 className="group relative bg-white/90 backdrop-blur-md rounded-2xl p-6 shadow-lg border border-slate-200/50 hover:shadow-2xl hover:border-teal-300/50 transition-all duration-300 overflow-hidden"
                             >
-                                {/* Decorative gradient */}
-                                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-teal-400 via-cyan-400 to-emerald-400" />
+                                {/* Decorative linear */}
+                                <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-teal-400 via-cyan-400 to-emerald-400" />
 
                                 {/* User Avatar */}
                                 <div className="flex items-start justify-between mb-4">
                                     <motion.div
                                         whileHover={{ scale: 1.1, rotate: 5 }}
-                                        className="w-16 h-16 rounded-2xl bg-gradient-to-br from-teal-400 to-cyan-500 flex items-center justify-center text-white font-bold text-2xl shadow-lg"
+                                        className="w-16 h-16 rounded-2xl bg-linear-to-br from-teal-400 to-cyan-500 flex items-center justify-center text-white font-bold text-2xl shadow-lg"
                                     >
                                         {user.name.charAt(0).toUpperCase()}
                                     </motion.div>
@@ -323,7 +323,7 @@ const Users = () => {
 
                                 {/* Hover effect overlay */}
                                 <motion.div
-                                    className="absolute inset-0 bg-gradient-to-br from-teal-400/5 to-cyan-400/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                                    className="absolute inset-0 bg-linear-to-br from-teal-400/5 to-cyan-400/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
                                 />
                             </motion.div>
                         ))}
@@ -350,7 +350,7 @@ const Users = () => {
                             className="bg-white rounded-3xl shadow-2xl max-w-lg w-full overflow-hidden"
                         >
                             {/* Modal Header */}
-                            <div className="bg-gradient-to-r from-teal-500 to-cyan-600 p-6 text-white">
+                            <div className="bg-linear-to-r from-teal-500 to-cyan-600 p-6 text-white">
                                 <div className="flex items-center gap-4">
                                     <div className="w-20 h-20 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-3xl font-bold">
                                         {selectedUser.name.charAt(0).toUpperCase()}
@@ -413,7 +413,7 @@ const Users = () => {
                                             handleDeleteUser(selectedUser._id.$oid);
                                             setShowModal(false);
                                         }}
-                                        className="px-6 py-3 bg-gradient-to-r from-red-500 to-rose-600 text-white font-semibold rounded-xl hover:shadow-lg transition-all flex items-center gap-2"
+                                        className="px-6 py-3 bg-linear-to-r from-red-500 to-rose-600 text-white font-semibold rounded-xl hover:shadow-lg transition-all flex items-center gap-2"
                                     >
                                         <Trash2 className="w-4 h-4" />
                                         Delete

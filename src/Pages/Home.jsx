@@ -11,7 +11,7 @@ const Home = () => {
         <motion.div>
             <Hero />
             <HowItWork />
-            <Sliders />
+            {/* <Sliders /> */}
             <Plans />
             <Advantages />
         </motion.div>
