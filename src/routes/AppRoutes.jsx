@@ -14,6 +14,7 @@ import Plans from "@/Pages/Plans";
 import Profile from "@/Admin/Pages/Profile";
 import OrdersManagement from "@/Admin/Pages/OrdersManagement";
 import Settings from "@/Admin/Pages/Settings";
+import Users from "@/Admin/Pages/Users";
 
 const AppRoutes = () => {
     return (
@@ -32,6 +33,7 @@ const AppRoutes = () => {
                 <Route path="/admin/management" element={<ManagementAll />} />
                 <Route path="/admin/orders" element={<OrdersManagement />} />
                 <Route path="/admin/settings" element={<Settings />} />
+                <Route path="/admin/users" element={<Users />} />
 
             </Route>
             {/* user Dashboard routes */}
