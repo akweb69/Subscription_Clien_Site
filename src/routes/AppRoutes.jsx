@@ -17,6 +17,7 @@ import Settings from "@/Admin/Pages/Settings";
 import Users from "@/Admin/Pages/Users";
 import CheckOut from "@/Pages/CheckOut";
 import OrderSuccess from "@/Pages/OrderSuccess";
+import PlanDetails from "@/Admin/User/Pages/PlanDetails";
 
 const AppRoutes = () => {
     return (
@@ -44,6 +45,7 @@ const AppRoutes = () => {
             <Route element={<UserLayout />}>
                 <Route path="/dashboard" element={<UserDash />} />
                 <Route path="/dashboard/profile" element={<Profile />} />
+                <Route path="/dashboard/myplan_details/:id" element={<PlanDetails />} />
 
             </Route>
 

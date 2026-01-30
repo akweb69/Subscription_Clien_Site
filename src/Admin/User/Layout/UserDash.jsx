@@ -5,6 +5,7 @@ import {
 } from 'lucide-react';
 import { AppContext } from '@/context/AppContext';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const StatCard = ({ icon: Icon, title, value, color }) => (
     <div className="bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow transition-shadow duration-200">
@@ -339,9 +340,16 @@ const UserDashboard = () => {
                                                     </div>
                                                 </div>
 
-                                                <span className="inline-flex px-4 py-2 rounded-full text-sm font-semibold bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-lg shadow-emerald-200">
-                                                    Active
-                                                </span>
+                                                <div className="space-x-2">
+                                                    <span className="inline-flex px-4 py-2 rounded-full text-sm font-semibold bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-lg shadow-emerald-200">
+                                                        Active
+                                                    </span>
+                                                    <Link
+                                                        to={`/dashboard/myplan_details/${sub?._id}`}
+                                                        className="inline-flex px-4 py-2 rounded-full text-sm font-semibold bg-gradient-to-r from-yellow-500 to-rose-500 text-white shadow-lg shadow-emerald-200">
+                                                        View
+                                                    </Link>
+                                                </div>
                                             </div>
 
                                             {/* Countdown Timer */}
