@@ -15,6 +15,8 @@ import Profile from "@/Admin/Pages/Profile";
 import OrdersManagement from "@/Admin/Pages/OrdersManagement";
 import Settings from "@/Admin/Pages/Settings";
 import Users from "@/Admin/Pages/Users";
+import CheckOut from "@/Pages/CheckOut";
+import OrderSuccess from "@/Pages/OrderSuccess";
 
 const AppRoutes = () => {
     return (
@@ -25,6 +27,8 @@ const AppRoutes = () => {
                 <Route path="/signin" element={<SignIn />} />
                 <Route path="/signup" element={<SignUp />} />
                 <Route path="/plans" element={<Plans />} />
+                <Route path="/checkout/:planId" element={<CheckOut />} />
+                <Route path="/order-success" element={<OrderSuccess />} />
             </Route>
 
             {/* admin routes */}

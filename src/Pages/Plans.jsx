@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 const cardVariants = {
     hidden: { opacity: 0, y: 40, scale: 0.92 },
@@ -42,7 +43,8 @@ const Plans = () => {
     const [filteredPlans, setFilteredPlans] = useState([]);
     const [allCategory, setAllCategory] = useState([]);
     const [platformMap, setPlatformMap] = useState({});   // ← new: id → name
-
+    const navigate = useNavigate();
+    const gotoCheckOut = (planId) => navigate(`/checkout/${planId}`);
     const loadData = async () => {
         try {
             const [categoryRes, planRes, platformRes] = await Promise.all([
@@ -222,6 +224,7 @@ const Plans = () => {
                                         </ul>
 
                                         <motion.button
+                                            onClick={() => gotoCheckOut(plan._id)}
                                             whileHover={{ scale: 1.04 }}
                                             whileTap={{ scale: 0.97 }}
                                             className={`

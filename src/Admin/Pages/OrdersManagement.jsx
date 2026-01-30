@@ -4,6 +4,8 @@ import AddNewPlatform from '../Component/AddNewPlatform';
 import ManagePlatform from '../Component/ManagePlatform';
 import AddNewSubscription from './AddNewSubscription';
 import ManageSubscription from './ManageSubscription';
+import ManageOrders from './ManageOrders';
+import AllOrders from './AllOrders';
 
 const OrdersManagement = () => {
     const allTabs = [
@@ -40,18 +42,13 @@ const OrdersManagement = () => {
 
             {/* all sections */}
             {
-                activeTab === 0 && <AddNewPlatform />
+                activeTab === 0 && <AllOrders />
 
             }
             {
-                activeTab === 1 && <ManagePlatform />
+                activeTab === 1 && <ManageOrders />
             }
-            {
-                activeTab === 2 && <AddNewSubscription />
-            }
-            {
-                activeTab === 3 && <ManageSubscription />
-            }
+
         </div>
     );
 };
