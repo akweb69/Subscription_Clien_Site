@@ -19,25 +19,36 @@ const Settings = () => {
     const base_url = import.meta.env.VITE_BASE_URL;
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
+
+    // MFS numbers
     const [bkash, setBkash] = useState('');
+    const [nagad, setNagad] = useState('');
+    const [rocket, setRocket] = useState('');
+    const [upay, setUpay] = useState('');
+
+    // Other fields
     const [webName, setWebName] = useState('');
     const [address, setAddress] = useState('');
     const [phone, setPhone] = useState('');
     const [supportEmail, setSupportEmail] = useState('');
     const [serviceTime, setServiceTime] = useState('');
-    const [runnignSettings, setRunningSettings] = useState({});
+
+    const [runningSettings, setRunningSettings] = useState({});
 
     const handleSettings = async () => {
         setSaving(true);
         try {
             const finalData = {
                 bkash,
+                nagad,
+                rocket,
+                upay,
                 webName,
                 address,
                 phone,
                 supportEmail,
                 serviceTime,
-                runnignSettings
+                runningSettings
             };
             const res = await axios.post(`${base_url}/settings`, finalData);
             if (res.data.acknowledged) {
@@ -65,12 +76,17 @@ const Settings = () => {
             const res = await axios.get(`${base_url}/settings`);
             if (res.data) {
                 setBkash(res.data.bkash || '');
+                setNagad(res.data.nagad || '');
+                setRocket(res.data.rocket || '');
+                setUpay(res.data.upay || '');
+
                 setWebName(res.data.webName || '');
                 setAddress(res.data.address || '');
                 setPhone(res.data.phone || '');
                 setSupportEmail(res.data.supportEmail || '');
                 setServiceTime(res.data.serviceTime || '');
-                setRunningSettings(res.data.runnignSettings || {});
+
+                setRunningSettings(res.data.runningSettings || {});
             }
         } catch (error) {
             toast.error('Failed to load settings');
@@ -112,6 +128,33 @@ const Settings = () => {
             label: 'bKash Number',
             value: bkash,
             setValue: setBkash,
+            icon: Smartphone,
+            placeholder: '+880 1XXX-XXXXXX',
+            type: 'tel'
+        },
+        {
+            id: 'nagad',
+            label: 'Nagad Number',
+            value: nagad,
+            setValue: setNagad,
+            icon: Smartphone,
+            placeholder: '+880 1XXX-XXXXXX',
+            type: 'tel'
+        },
+        {
+            id: 'rocket',
+            label: 'Rocket Number',
+            value: rocket,
+            setValue: setRocket,
+            icon: Smartphone,
+            placeholder: '+880 1XXX-XXXXXX',
+            type: 'tel'
+        },
+        {
+            id: 'upay',
+            label: 'Upay Number',
+            value: upay,
+            setValue: setUpay,
             icon: Smartphone,
             placeholder: '+880 1XXX-XXXXXX',
             type: 'tel'
@@ -185,14 +228,14 @@ const Settings = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 py-8 px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 py-8 px-4 sm:px-6 lg:px-8 rounded-lg">
             <Toaster position="top-right" />
 
             <motion.div
                 initial="hidden"
                 animate="visible"
                 variants={containerVariants}
-                className="max-w-4xl mx-auto"
+                className=""
             >
                 {/* Header */}
                 <motion.div variants={itemVariants} className="mb-8 sm:mb-12">
@@ -205,7 +248,7 @@ const Settings = () => {
                             <SettingsIcon className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
                         </motion.div>
                         <div>
-                            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-slate-900 via-indigo-900 to-purple-900 bg-clip-text text-transparent">
+                            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-slate-900 py-2 via-indigo-900 to-purple-900 bg-clip-text text-transparent">
                                 Settings
                             </h1>
                             <p className="text-slate-600 text-sm sm:text-base mt-1">
