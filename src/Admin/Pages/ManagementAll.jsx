@@ -16,6 +16,8 @@ import AddNewSubscription from './AddNewSubscription';
 import ManageSubscription from './ManageSubscription';
 import ManageSubs_Category from './ManageSubs_Category';
 import EditCategory from './EditCategory';
+import AddNewCoupon from '../Component/AddNewCoupon';
+import ManageCoupons from '../Component/ManageCoupons';
 
 
 
@@ -63,6 +65,22 @@ const ManagementAll = () => {
         },
         {
             name: "Manage Category",
+            icon: Settings,
+            gradient: "from-indigo-500 via-blue-500 to-cyan-500",
+            bgGradient: "from-indigo-50 to-blue-50",
+            shadow: "shadow-indigo-200",
+            accentColor: "indigo"
+        },
+        {
+            name: "Add New Coupon",
+            icon: ListPlus,
+            gradient: "from-emerald-500 via-teal-500 to-cyan-500",
+            bgGradient: "from-emerald-50 to-teal-50",
+            shadow: "shadow-emerald-200",
+            accentColor: "emerald"
+        },
+        {
+            name: "Manage Coupon",
             icon: Settings,
             gradient: "from-indigo-500 via-blue-500 to-cyan-500",
             bgGradient: "from-indigo-50 to-blue-50",
@@ -245,38 +263,7 @@ const ManagementAll = () => {
                         </div>
                     </div>
 
-                    {/* Stats Bar */}
-                    {/* <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.3 }}
-                        className="grid grid-cols-3 gap-3 sm:gap-4 mt-6"
-                    >
-                        {[
-                            { label: "Active", value: "24", icon: Zap, color: "from-emerald-500 to-teal-500" },
-                            { label: "Categories", value: "8", icon: Layers, color: "from-blue-500 to-cyan-500" },
-                            { label: "Growth", value: "+12%", icon: TrendingUp, color: "from-pink-500 to-rose-500" }
-                        ].map((stat, idx) => (
-                            <motion.div
-                                key={idx}
-                                whileHover={{ y: -4, scale: 1.02 }}
-                                className="bg-white/70 backdrop-blur-xl rounded-2xl p-3 sm:p-4 border border-white/60 shadow-lg hover:shadow-xl transition-all duration-300"
-                            >
-                                <div className="flex items-center justify-between mb-2">
-                                    <stat.icon className={`w-5 h-5 bg-gradient-to-br ${stat.color} text-transparent`} style={{ WebkitTextFillColor: 'transparent', WebkitBackgroundClip: 'text' }} />
-                                    <motion.div
-                                        initial={{ scale: 0 }}
-                                        animate={{ scale: 1 }}
-                                        transition={{ delay: 0.5 + idx * 0.1, type: "spring", stiffness: 200 }}
-                                    >
-                                        <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
-                                    </motion.div>
-                                </div>
-                                <p className="text-xl sm:text-2xl font-bold text-slate-800">{stat.value}</p>
-                                <p className="text-xs sm:text-sm text-slate-500 font-medium">{stat.label}</p>
-                            </motion.div>
-                        ))}
-                    </motion.div> */}
+
                 </motion.div>
 
                 {/* Tab Sections */}
@@ -284,7 +271,7 @@ const ManagementAll = () => {
                     variants={containerVariants}
                     initial="hidden"
                     animate="visible"
-                    className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 mb-8"
+                    className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-10 gap-3 sm:gap-4 mb-8"
                 >
                     {allTabs.map((tab, index) => {
                         const isActive = activeTab === index;
@@ -417,6 +404,8 @@ const ManagementAll = () => {
                                 {activeTab === 3 && <ManageSubscription />}
                                 {activeTab === 4 && <ManageSubs_Category />}
                                 {activeTab === 5 && <EditCategory />}
+                                {activeTab === 6 && <AddNewCoupon />}
+                                {activeTab === 7 && <ManageCoupons />}
                             </div>
 
                             {/* Decorative Background Pattern */}
