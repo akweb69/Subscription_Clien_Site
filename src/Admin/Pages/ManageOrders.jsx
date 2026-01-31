@@ -382,41 +382,113 @@ const ManageOrders = () => {
 
                                 {/* Info Grid */}
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div>
-                                        <h3 className="font-semibold text-gray-800 mb-3 border-b pb-2">
-                                            Customer
+                                    {/* Customer */}
+                                    <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+                                        <h3 className="flex items-center gap-2 font-semibold text-gray-800 mb-4 border-b border-gray-100 pb-2">
+                                            👤 Customer
                                         </h3>
-                                        <div className="space-y-2 text-sm">
-                                            <p><span className="text-gray-600">Name:</span> {selectedOrder.userName || '—'}</p>
-                                            <p><span className="text-gray-600">Email:</span> {selectedOrder.userEmail}</p>
+
+                                        <div className="space-y-3 text-sm">
+                                            <div className="flex justify-between">
+                                                <span className="text-gray-500">Name</span>
+                                                <span className="font-medium text-gray-900">
+                                                    {selectedOrder.userName || '—'}
+                                                </span>
+                                            </div>
+
+                                            <div className="flex justify-between">
+                                                <span className="text-gray-500">Email</span>
+                                                <span className="text-gray-700">
+                                                    {selectedOrder.userEmail || '—'}
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div>
-                                        <h3 className="font-semibold text-gray-800 mb-3 border-b pb-2">
-                                            Subscription
+                                    {/* Subscription */}
+                                    <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+                                        <h3 className="flex items-center gap-2 font-semibold text-gray-800 mb-4 border-b border-gray-100 pb-2">
+                                            📦 Subscription
                                         </h3>
-                                        <div className="space-y-2 text-sm">
-                                            <p><span className="text-gray-600">Plan:</span> {selectedOrder.planName || '—'}</p>
-                                            <p><span className="text-gray-600">Amount:</span> <strong className="text-emerald-700">৳{Number(selectedOrder.amount || 0).toLocaleString()}</strong></p>
+
+                                        <div className="space-y-3 text-sm">
+                                            <div className="flex justify-between">
+                                                <span className="text-gray-500">Plan</span>
+                                                <span className="font-medium text-gray-900">
+                                                    {selectedOrder.planName || '—'}
+                                                </span>
+                                            </div>
+
+                                            <div className="flex justify-between">
+                                                <span className="text-gray-500">Amount</span>
+                                                <span className="font-semibold text-emerald-700">
+                                                    ৳{Number(selectedOrder.amount || 0).toLocaleString()}
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div className="md:col-span-2">
-                                        <h3 className="font-semibold text-gray-800 mb-3 border-b pb-2">
-                                            Payment Details
+                                    {/* Payment Details */}
+                                    <div className="md:col-span-2 bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+                                        <h3 className="flex items-center gap-2 font-semibold text-gray-800 mb-4 border-b border-gray-100 pb-2">
+                                            💳 Payment Details
                                         </h3>
+
                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
-                                            <p><span className="text-gray-600">Method:</span> {selectedOrder.paymentMethod?.toUpperCase() || '—'}</p>
-                                            <p><span className="text-gray-600">Sender Number:</span> {selectedOrder.senderNumber || '—'}</p>
-                                            <p className="sm:col-span-2">
-                                                <span className="text-gray-600">Transaction ID:</span>{' '}
-                                                <code className="bg-gray-100 px-2 py-1 rounded font-mono">
+                                            <div className="flex justify-between">
+                                                <span className="text-gray-500">Method</span>
+                                                <span className="font-medium">
+                                                    {selectedOrder.paymentMethod?.toUpperCase() || '—'}
+                                                </span>
+                                            </div>
+
+                                            <div className="flex justify-between">
+                                                <span className="text-gray-500">Sender Number</span>
+                                                <span className="font-medium">
+                                                    {selectedOrder.senderNumber || '—'}
+                                                </span>
+                                            </div>
+
+                                            <div className="sm:col-span-2">
+                                                <span className="text-gray-500 block mb-1">Transaction ID</span>
+                                                <code className="inline-block bg-gray-100 text-gray-800 px-3 py-1.5 rounded-lg font-mono text-xs">
                                                     {selectedOrder.transactionId || '—'}
                                                 </code>
-                                            </p>
+                                            </div>
                                         </div>
                                     </div>
+
+
+
+                                    {/* coupon detrails */}
+                                    {
+                                        selectedOrder?.couponCode && (
+                                            <>
+                                                <div className="md:col-span-2 bg-white rounded-2xl border border-rose-200 shadow-sm p-6">
+                                                    <h3 className="flex items-center gap-2 font-semibold text-rose-700 mb-4 border-b border-rose-100 pb-2">
+                                                        🎟️ Coupon Details
+                                                    </h3>
+
+                                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                                                        <div className="flex flex-col">
+                                                            <span className="text-gray-500 text-xs mb-1">Coupon Code</span>
+                                                            <span className="font-medium text-gray-900 tracking-wide">
+                                                                {selectedOrder.couponCode?.toUpperCase() || '—'}
+                                                            </span>
+                                                        </div>
+
+                                                        <div className="flex flex-col">
+                                                            <span className="text-gray-500 text-xs mb-1">Discount</span>
+                                                            <span className="font-semibold text-green-600">
+                                                                {selectedOrder.discountAmount || '—'}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </>
+                                        )
+                                    }
                                 </div>
                             </div>
                         </motion.div>
