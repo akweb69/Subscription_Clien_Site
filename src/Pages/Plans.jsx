@@ -56,7 +56,8 @@ const Plans = () => {
             setAllCategory(categoryRes.data || []);
             const plans = planRes.data || [];
             setAllPlans(plans);
-            setFilteredPlans(plans);
+            setFilteredPlans(plans.filter(p => p.category === categoryRes.data[0]._id));
+            setSelectedCategory(categoryRes.data[0]._id);
 
             // Create lookup map
             const map = {};
@@ -78,7 +79,7 @@ const Plans = () => {
 
     const handleSelectCategory = (category) => {
         setSelectedCategory(category);
-
+        console.log(category);
         setFilteredPlans(allPlans.filter(plan => plan.category === category));
 
     };
@@ -93,7 +94,7 @@ const Plans = () => {
 
     return (
         <div className="w-full py-12 md:py-20 bg-gradient-to-b from-gray-50 to-white">
-            <div className="max-w-7xl mx-auto px-5 md:px-8">
+            <div className="w-11/12 mx-auto ">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -108,14 +109,14 @@ const Plans = () => {
                     </p>
                 </motion.div>
 
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
+                <div className="flex flex-col lg:flex-row items-center justify-center gap-4 mb-12">
                     <select
                         value={selectedCategory}
                         onChange={(e) => handleSelectCategory(e.target.value)}
-                        className="w-64 px-4 py-3 bg-white border border-gray-300 rounded-xl text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm transition"
+                        className="w-64 px-4 py-3 bg-white border border-gray-300 rounded-xl text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm transition "
                     >
                         {allCategory.map((cat) => (
-                            <option key={cat._id} value={cat.name}>
+                            <option key={cat._id} value={cat._id}>
                                 {cat.name}
                             </option>
                         ))}
@@ -127,10 +128,10 @@ const Plans = () => {
                         {allCategory.map((cat) => (
                             <button
                                 key={cat._id}
-                                onClick={() => handleSelectCategory(cat.name)}
-                                className={`px-4 py-2 rounded-lg text-sm font-medium ${selectedCategory === cat.name
-                                    ? "bg-blue-500 text-white"
-                                    : "bg-white text-gray-600"
+                                onClick={() => handleSelectCategory(cat._id)}
+                                className={`px-4 py-3 rounded-lg text-sm font-medium ${selectedCategory === cat._id
+                                    ? "bg-blue-500 text-white shadow"
+                                    : "bg-white text-gray-600 shadow"
                                     }`}
                             >
                                 {cat.name}
@@ -202,16 +203,7 @@ const Plans = () => {
                                                 <span className="text-xl text-gray-500 ml-1">/{plan.validityDays} Days</span>
                                             </div>
 
-                                            {plan.discount > 0 && (
-                                                <div className="mt-1 flex items-center gap-2">
-                                                    <span className="text-sm line-through text-gray-400">
-                                                        ৳{(plan.price * 1.2).toFixed(0)}
-                                                    </span>
-                                                    <span className="text-sm font-medium text-green-600">
-                                                        Save {plan.discount}%
-                                                    </span>
-                                                </div>
-                                            )}
+
 
                                             <div className="mt-2 flex items-center gap-1.5 text-sm text-gray-500">
                                                 <Clock size={14} />
