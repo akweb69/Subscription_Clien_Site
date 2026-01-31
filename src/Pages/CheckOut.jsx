@@ -16,6 +16,7 @@ import {
     AlertCircle
 } from 'lucide-react';
 import toast from 'react-hot-toast';
+import useCouponsData from '@/Admin/Hooks/useCouponsData';
 
 const containerVariants = {
     hidden: { opacity: 0 },
@@ -33,6 +34,7 @@ const itemVariants = {
 const CheckOut = () => {
     const { planId } = useParams();
     const { user } = useContext(AppContext);
+    const { couponLoading, couponData } = useCouponsData();
     const navigate = useNavigate();
 
     const [uiLoading, setUiLoading] = useState(true);
@@ -80,27 +82,26 @@ const CheckOut = () => {
     }, [planId]);
 
     // Coupon apply logic — only FIXED amounts
-    const handleApplyCoupon = () => {
+    const handleApplyCoupon = async () => {
+        const validCoupons = await couponData;
         if (!couponCode.trim()) {
             toast.error('Please enter a coupon code');
             return;
         }
 
+
         // Format: array of objects with couponCode + fixed discount amount
-        const validCoupons = [
-            { couponCode: "WELCOME200", discount: 200 },
-            { couponCode: "FIRSTBUY300", discount: 300 },
-            { couponCode: "SAVE500", discount: 500 },
-            { couponCode: "AKA", discount: 150 },
-            { couponCode: "NEWUSER100", discount: 100 },
-            { couponCode: "TESTCOUPON", discount: 50 },
-        ];
+
 
         const enteredCode = couponCode.trim().toUpperCase();
-        const coupon = validCoupons.find(c => c.couponCode === enteredCode);
+        const coupon = validCoupons.find(c => c.code === enteredCode);
 
         if (!coupon) {
             toast.error('Invalid or expired coupon code', { duration: 4000 });
+            return;
+        }
+        if (coupon && coupon?.subscriptionName !== plan?.subscriptionName) {
+            toast.error('This coupon is not valid for this plan', { duration: 4000 });
             return;
         }
 
@@ -109,7 +110,7 @@ const CheckOut = () => {
 
         setDiscountAmount(discountVal);
         setFinalAmount((plan.price || 0) - discountVal);
-        setAppliedCoupon(coupon.couponCode);
+        setAppliedCoupon(coupon.code);
 
         toast.success(`Coupon applied! ৳${discountVal} discount`, {
             icon: <CheckCircle className="text-green-600" />
