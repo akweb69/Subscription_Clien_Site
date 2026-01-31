@@ -25,11 +25,10 @@ const AddNewSubscription = () => {
         name: '',
         validityDays: '',
         price: '',
-        discount: '0',
         isMostPopular: false,
         description: '',
         selectedPlatforms: [],
-        category: ''           // ← new field (will store category _id)
+        category: ''
     });
 
     const [platforms, setPlatforms] = useState([]);
@@ -83,9 +82,6 @@ const AddNewSubscription = () => {
             return 'Please enter valid number of days';
         if (!formData.price || Number(formData.price) <= 0)
             return 'Please enter a valid price';
-        if (Number(formData.discount) < 0) return 'Discount cannot be negative';
-        if (Number(formData.discount) > Number(formData.price))
-            return 'Discount cannot be higher than the original price';
         if (!formData.description.trim()) return 'Description is required';
         if (formData.selectedPlatforms.length === 0)
             return 'Select at least one platform';
@@ -111,11 +107,10 @@ const AddNewSubscription = () => {
                 subscriptionName: formData.name.trim(),
                 validityDays: Number(formData.validityDays),
                 price: Number(formData.price),
-                discount: Number(formData.discount) || 0,
                 isMostPopular: formData.isMostPopular,
                 subscriptionDescription: formData.description.trim(),
-                selectedPlan: formData.selectedPlatforms,     // platforms array of IDs
-                category: formData.category                    // ← category ObjectId reference
+                selectedPlan: formData.selectedPlatforms,
+                category: formData.category
             };
 
             const response = await axios.post(
@@ -131,7 +126,6 @@ const AddNewSubscription = () => {
                     name: '',
                     validityDays: '',
                     price: '',
-                    discount: '0',
                     isMostPopular: false,
                     description: '',
                     selectedPlatforms: [],
@@ -248,31 +242,7 @@ const AddNewSubscription = () => {
                             </div>
                         </div>
 
-                        {/* Discount */}
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                                Discount (BDT)
-                            </label>
-                            <div className="relative">
-                                <DollarSign
-                                    className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-                                    size={18}
-                                />
-                                <input
-                                    type="number"
-                                    name="discount"
-                                    value={formData.discount}
-                                    onChange={handleChange}
-                                    min="0"
-                                    step="0.01"
-                                    placeholder="0"
-                                    className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                                    disabled={submitting || loading}
-                                />
-                            </div>
-                        </div>
-
-                        {/* Category Selection - NEW */}
+                        {/* Category Selection */}
                         <div className="md:col-span-2">
                             <label className="block text-sm font-medium text-gray-700 mb-1.5">
                                 Category <span className="text-red-500">*</span>
