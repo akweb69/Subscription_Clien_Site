@@ -11,7 +11,7 @@ import {
     Globe,
     CheckCircle2
 } from 'lucide-react';
-import { toast } from 'react-hot-toast';
+import { toast } from 'react-hot-toast'; // ← install: npm install react-hot-toast
 
 const PlanDetails = () => {
     const { id } = useParams();
