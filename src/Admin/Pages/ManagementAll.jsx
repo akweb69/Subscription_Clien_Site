@@ -19,6 +19,8 @@ import ManageSubs_Category from './ManageSubs_Category';
 import EditCategory from './EditCategory';
 import AddNewCoupon from '../Component/AddNewCoupon';
 import ManageCoupons from '../Component/ManageCoupons';
+import CradentialVideo from '../Component/CradentialVideo';
+import CockeisVideo from '../Component/CockeisVideo';
 
 
 
@@ -91,16 +93,16 @@ const ManagementAll = () => {
         {
             name: "Cradential Video",
             icon: Video,
-            gradient: "from-emerald-500 via-teal-500 to-cyan-500",
-            bgGradient: "from-emerald-50 to-teal-50",
+            gradient: "from-blue-500 via-cyan-500 to-teal-500",
+            bgGradient: "from-blue-50 to-cyan-50",
             shadow: "shadow-emerald-200",
             accentColor: "emerald"
         },
         {
             name: "Cockies Video",
             icon: Video,
-            gradient: "from-indigo-500 via-blue-500 to-cyan-500",
-            bgGradient: "from-indigo-50 to-blue-50",
+            gradient: "from-violet-500 via-purple-500 to-fuchsia-500",
+            bgGradient: "from-violet-50 to-purple-50",
             shadow: "shadow-indigo-200",
             accentColor: "indigo"
         },
@@ -423,6 +425,8 @@ const ManagementAll = () => {
                                 {activeTab === 5 && <EditCategory />}
                                 {activeTab === 6 && <AddNewCoupon />}
                                 {activeTab === 7 && <ManageCoupons />}
+                                {activeTab === 8 && <CradentialVideo />}
+                                {activeTab === 9 && <CockeisVideo />}
                             </div>
 
                             {/* Decorative Background Pattern */}
