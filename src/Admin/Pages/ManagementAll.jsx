@@ -8,7 +8,8 @@ import {
     TrendingUp,
     Layers,
     ChevronRight,
-    Star
+    Star,
+    Video
 } from 'lucide-react';
 import AddNewPlatform from '../Component/AddNewPlatform';
 import ManagePlatform from '../Component/ManagePlatform';
@@ -82,6 +83,22 @@ const ManagementAll = () => {
         {
             name: "Manage Coupon",
             icon: Settings,
+            gradient: "from-indigo-500 via-blue-500 to-cyan-500",
+            bgGradient: "from-indigo-50 to-blue-50",
+            shadow: "shadow-indigo-200",
+            accentColor: "indigo"
+        },
+        {
+            name: "Cradential Video",
+            icon: Video,
+            gradient: "from-emerald-500 via-teal-500 to-cyan-500",
+            bgGradient: "from-emerald-50 to-teal-50",
+            shadow: "shadow-emerald-200",
+            accentColor: "emerald"
+        },
+        {
+            name: "Cockies Video",
+            icon: Video,
             gradient: "from-indigo-500 via-blue-500 to-cyan-500",
             bgGradient: "from-indigo-50 to-blue-50",
             shadow: "shadow-indigo-200",
