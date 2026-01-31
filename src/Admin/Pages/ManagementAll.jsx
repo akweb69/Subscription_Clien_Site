@@ -21,6 +21,8 @@ import AddNewCoupon from '../Component/AddNewCoupon';
 import ManageCoupons from '../Component/ManageCoupons';
 import CradentialVideo from '../Component/CradentialVideo';
 import CockeisVideo from '../Component/CockeisVideo';
+import ManageCredentialVideo from '../Component/ManageCredantialVideo';
+import ManageCookiesVideo from '../Component/ManageCockiesVideo';
 
 
 
@@ -99,7 +101,23 @@ const ManagementAll = () => {
             accentColor: "emerald"
         },
         {
-            name: "Cockies Video",
+            name: "Manage Cradential Video",
+            icon: Video,
+            gradient: "from-blue-500 via-cyan-500 to-teal-500",
+            bgGradient: "from-blue-50 to-cyan-50",
+            shadow: "shadow-emerald-200",
+            accentColor: "emerald"
+        },
+        {
+            name: " Cockies Video",
+            icon: Video,
+            gradient: "from-violet-500 via-purple-500 to-fuchsia-500",
+            bgGradient: "from-violet-50 to-purple-50",
+            shadow: "shadow-indigo-200",
+            accentColor: "indigo"
+        },
+        {
+            name: "Manage Cockies Video",
             icon: Video,
             gradient: "from-violet-500 via-purple-500 to-fuchsia-500",
             bgGradient: "from-violet-50 to-purple-50",
@@ -290,7 +308,7 @@ const ManagementAll = () => {
                     variants={containerVariants}
                     initial="hidden"
                     animate="visible"
-                    className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-10 gap-3 sm:gap-4 mb-8"
+                    className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 mb-8"
                 >
                     {allTabs.map((tab, index) => {
                         const isActive = activeTab === index;
@@ -426,7 +444,9 @@ const ManagementAll = () => {
                                 {activeTab === 6 && <AddNewCoupon />}
                                 {activeTab === 7 && <ManageCoupons />}
                                 {activeTab === 8 && <CradentialVideo />}
-                                {activeTab === 9 && <CockeisVideo />}
+                                {activeTab === 9 && <ManageCredentialVideo />}
+                                {activeTab === 10 && <CockeisVideo />}
+                                {activeTab === 11 && <ManageCookiesVideo />}
                             </div>
 
                             {/* Decorative Background Pattern */}
