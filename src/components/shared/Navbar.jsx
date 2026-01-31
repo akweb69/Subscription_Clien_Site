@@ -62,22 +62,17 @@ export default function Navbar() {
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex h-16 items-center justify-between">
                     {/* Logo */}
-                    <Link to="/" className="flex items-center gap-2 group">
+                    <Link
+                        to="/"
+                        className="flex items-end gap-1 group h-10"
+                    >
                         <img
-                            className="h-9 w-auto object-contain transition-transform group-hover:scale-105"
-                            src="https://i.ibb.co/Cp3NTgRQ/png-file-removebg-preview.png"
-                            alt="Logo"
-                        />
-                        <motion.div
-                            className="text-2xl md:text-3xl font-semibold logoFont tracking-tight"
-                            initial={{ opacity: 0, x: -10 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.5 }}
-                        >
-                            {settingsLoading || !settingsData?.webName
-                                ? "AsterDesk"
-                                : settingsData.webName.trim()}
+                            className="h-full "
+                            src="https://i.ibb.co/Cp3NTgRQ/png-file-removebg-preview.png" alt="" />
+                        <motion.div className="text-3xl -mb-1  logoFont md:text-4xl font-semibold">
+                            {settingsLoading ? " asterDesk" : settingsData?.webName.slice(1, 1000)}
                         </motion.div>
+
                     </Link>
 
                     {/* Desktop Nav + Auth */}
