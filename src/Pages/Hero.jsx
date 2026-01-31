@@ -21,8 +21,8 @@ const Hero = () => {
                     />
                     <h1 className="text-3xl -mb-2 md:text-5xl text-green-400 font-medium welcomeFont text-left">
                         Welcome to <br /> <span className=" text-white logoFont font-bold">
-                            <span className="uppercase">{settingsData?.webName.slice(1, 2)}</span>
-                            {settingsData?.webName.slice(2, 1000)}</span>
+                            <span className="uppercase">{settingsData?.webName ? settingsData?.webName.slice(1, 2) : ""}</span>
+                            {settingsData?.webName ? settingsData?.webName.slice(2, 1000) : "AsterDesk"}</span>
                     </h1>
                 </div>
 

@@ -78,11 +78,9 @@ const Plans = () => {
 
     const handleSelectCategory = (category) => {
         setSelectedCategory(category);
-        if (category === "all") {
-            setFilteredPlans(allPlans);
-        } else {
-            setFilteredPlans(allPlans.filter(plan => plan.category === category));
-        }
+
+        setFilteredPlans(allPlans.filter(plan => plan.category === category));
+
     };
 
     if (loading) {
@@ -116,7 +114,6 @@ const Plans = () => {
                         onChange={(e) => handleSelectCategory(e.target.value)}
                         className="w-64 px-4 py-3 bg-white border border-gray-300 rounded-xl text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm transition"
                     >
-                        <option value="all">All Plans</option>
                         {allCategory.map((cat) => (
                             <option key={cat._id} value={cat.name}>
                                 {cat.name}
@@ -124,10 +121,21 @@ const Plans = () => {
                         ))}
                     </select>
 
-                    <div className="text-sm text-gray-500 font-medium">
-                        Showing: <span className="text-gray-900 font-semibold capitalize">
-                            {selectedCategory === "all" ? "All Plans" : selectedCategory}
-                        </span>
+                    {/* show all catefory in btn  */}
+                    <div className="flex gap-3 items-center ">
+
+                        {allCategory.map((cat) => (
+                            <button
+                                key={cat._id}
+                                onClick={() => handleSelectCategory(cat.name)}
+                                className={`px-4 py-2 rounded-lg text-sm font-medium ${selectedCategory === cat.name
+                                    ? "bg-blue-500 text-white"
+                                    : "bg-white text-gray-600"
+                                    }`}
+                            >
+                                {cat.name}
+                            </button>
+                        ))}
                     </div>
                 </div>
 

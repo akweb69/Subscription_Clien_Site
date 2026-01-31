@@ -70,8 +70,8 @@ export default function Navbar() {
                             className="h-full "
                             src="https://i.ibb.co/Cp3NTgRQ/png-file-removebg-preview.png" alt="" />
                         <motion.div className="text-3xl -mb-1  logoFont md:text-4xl font-semibold">
-                            <span className="uppercase">{settingsData?.webName.slice(1, 2)}</span>
-                            {settingsLoading ? " asterDesk" : settingsData?.webName.slice(2, 1000)}
+                            <span className="uppercase">{settingsLoading ? "" : settingsData?.webName.slice(1, 2)}</span>
+                            {settingsLoading ? " AsterDesk" : settingsData?.webName.slice(2, 1000)}
                         </motion.div>
 
                     </Link>
