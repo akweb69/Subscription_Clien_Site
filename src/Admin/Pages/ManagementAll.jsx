@@ -29,7 +29,7 @@ import ManageCookiesVideo from '../Component/ManageCockiesVideo';
 const ManagementAll = () => {
     const allTabs = [
         {
-            name: "Add New Platform",
+            name: "Add Credentials ",
             icon: ListPlus,
             gradient: "from-violet-500 via-purple-500 to-fuchsia-500",
             bgGradient: "from-violet-50 to-purple-50",
@@ -37,7 +37,7 @@ const ManagementAll = () => {
             accentColor: "violet"
         },
         {
-            name: "Manage Platform",
+            name: "Manage Credentials ",
             icon: Settings,
             gradient: "from-blue-500 via-cyan-500 to-teal-500",
             bgGradient: "from-blue-50 to-cyan-50",

@@ -18,6 +18,8 @@ import Users from "@/Admin/Pages/Users";
 import CheckOut from "@/Pages/CheckOut";
 import OrderSuccess from "@/Pages/OrderSuccess";
 import PlanDetails from "@/Admin/User/Pages/PlanDetails";
+import CouponSells from "@/Admin/Pages/CouponSells";
+import Others from "@/Admin/Pages/Others";
 
 const AppRoutes = () => {
     return (
@@ -39,6 +41,8 @@ const AppRoutes = () => {
                 <Route path="/admin/orders" element={<OrdersManagement />} />
                 <Route path="/admin/settings" element={<Settings />} />
                 <Route path="/admin/users" element={<Users />} />
+                <Route path="/admin/couponSells" element={<CouponSells />} />
+                <Route path="/admin/others" element={<Others />} />
 
             </Route>
             {/* user Dashboard routes */}

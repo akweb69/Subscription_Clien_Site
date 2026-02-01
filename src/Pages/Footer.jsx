@@ -66,7 +66,7 @@ const Footer = () => {
 
                 {/* Bottom Bar */}
                 <div className="mt-10 pt-6 border-t border-gray-200 dark:border-gray-700 text-center text-sm text-gray-500 dark:text-gray-400">
-                    © {new Date().getFullYear()} Master Tools BD. All rights reserved.
+                    © {new Date().getFullYear()} {settingsData?.webName}.. All rights reserved.
                 </div>
             </div>
         </footer>
