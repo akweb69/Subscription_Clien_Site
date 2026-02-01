@@ -20,6 +20,7 @@ import OrderSuccess from "@/Pages/OrderSuccess";
 import PlanDetails from "@/Admin/User/Pages/PlanDetails";
 import CouponSells from "@/Admin/Pages/CouponSells";
 import Others from "@/Admin/Pages/Others";
+import OrderHistory from "@/Pages/OrderHistory";
 
 const AppRoutes = () => {
     return (
@@ -49,6 +50,7 @@ const AppRoutes = () => {
             <Route element={<UserLayout />}>
                 <Route path="/dashboard" element={<UserDash />} />
                 <Route path="/dashboard/profile" element={<Profile />} />
+                <Route path="/dashboard/order_history" element={<OrderHistory />} />
                 <Route path="/dashboard/myplan_details/:id" element={<PlanDetails />} />
 
             </Route>

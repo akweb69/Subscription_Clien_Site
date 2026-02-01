@@ -24,6 +24,8 @@ const PlanDetails = () => {
     const [platforms, setPlatforms] = useState([]);
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const [visiblePasswords, setVisiblePasswords] = useState({});
+    const [showTutorial, setShowTutorial] = useState(false);
+    const [tutorialVideos, setTutorialVideos] = useState({});
 
     const baseURL = import.meta.env.VITE_BASE_URL;
 
@@ -48,11 +50,12 @@ const PlanDetails = () => {
                 setLoading(true);
                 setError(null);
 
-                const [ordersRes, subsRes, platformsRes, passwordVisibilityData] = await Promise.all([
+                const [ordersRes, subsRes, platformsRes, passwordVisibilityData, loadTutorial] = await Promise.all([
                     axios.get(`${baseURL}/order`),
                     axios.get(`${baseURL}/subscription`),
                     axios.get(`${baseURL}/platform`),
                     axios.get(`${baseURL}/copy-btn`),
+                    axios.get(`${baseURL}/video`),
                 ]);
 
                 const foundOrder = ordersRes.data.find((o) => o._id === id);
@@ -74,6 +77,12 @@ const PlanDetails = () => {
                     setIsPasswordVisible(passwordVisibilityData?.data?.copy_btn_visibility);
                 }
 
+                if (loadTutorial.data) {
+                    setTutorialVideos(loadTutorial?.data[0] || {});
+                    console.log("sdsd------>", loadTutorial.data[0]);
+
+                }
+
                 setOrder(foundOrder);
                 setSubscription(foundSub);
                 setPlatforms(matchedPlatforms);
@@ -87,6 +96,14 @@ const PlanDetails = () => {
 
         loadData();
     }, [id, baseURL]);
+    const getYouTubeEmbedUrl = (url) => {
+        if (!url) return "";
+        const regExp =
+            /(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+        const match = url.match(regExp);
+        return match ? `https://www.youtube.com/embed/${match[1]}` : "";
+    };
+
 
     const renderPassword = (platformId, password) => {
         // If global visibility is enabled OR individual password is toggled visible
@@ -126,6 +143,43 @@ const PlanDetails = () => {
     return (
         <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
             <div className="mx-auto">
+                {/* tutorial video show btn */}
+                <div
+                    onClick={() => setShowTutorial(!showTutorial)}
+                    className="cursor-pointer w-fit flex justify-end bg-white shadow p-2 px-4 mb-4 rounded-lg">
+
+                    {
+                        showTutorial ? <div className="flex gap-2 items-center">
+                            <Eye className="h-5 w-5 " />
+                            Show tutorial video
+                        </div> : <div className="flex gap-2 items-center">
+                            <EyeOff className="h-5 w-5 " />
+                            Hide tutorial video
+                        </div>
+                    }
+                </div>
+
+                {/* tutorial video section youtube video link */}
+                <div className="">
+                    {
+                        showTutorial && <div className="w-full h-full mb-4">
+                            <div className="relative w-full pb-[56.25%] h-0 overflow-hidden rounded-xl">
+                                <iframe
+                                    className="absolute top-0 left-0 w-full h-full"
+                                    src={getYouTubeEmbedUrl(tutorialVideos?.windowsVideoLink)}
+                                    title="Tutorial Video"
+                                    frameBorder="0"
+                                    loading="lazy"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowFullScreen
+                                />
+                            </div>
+
+
+
+                        </div>
+                    }
+                </div>
                 {/* Header Card */}
                 <div className="bg-white rounded-2xl shadow-lg overflow-hidden mb-8 border border-gray-200">
                     <div className="bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-8 text-white">

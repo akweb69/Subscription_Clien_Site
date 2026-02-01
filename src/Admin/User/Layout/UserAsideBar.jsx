@@ -17,7 +17,7 @@ const UserAsideBar = () => {
         { icon: LayoutDashboard, label: 'Dashboard', href: '/dashboard' },
         { icon: User, label: 'Profile', href: '/dashboard/profile' },
         // { icon: CreditCard, label: 'Payments', href: '/dashboard/payments' },
-        { icon: History, label: 'Order History', href: '/dashboard/orders' },
+        { icon: History, label: 'Order History', href: '/dashboard/order_history' },
         // { icon: Heart, label: 'Wishlist', href: '/dashboard/wishlist' },
         // { icon: Settings, label: 'Settings', href: '/dashboard/settings' },
     ];
