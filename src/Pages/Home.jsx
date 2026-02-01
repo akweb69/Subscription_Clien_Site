@@ -4,6 +4,7 @@ import HowItWork from "./HowItWork";
 import Sliders from "./Sliders";
 import Plans from "./Plans";
 import Advantages from "./Advantages";
+import Testimonials from "@/Admin/MainLayout/Testimonials";
 
 
 const Home = () => {
@@ -14,6 +15,7 @@ const Home = () => {
             {/* <Sliders /> */}
             <Plans />
             <Advantages />
+            <Testimonials />
         </motion.div>
     );
 };

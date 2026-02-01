@@ -30,7 +30,7 @@ const AdminAsideBar = () => {
         { icon: FolderKanban, label: 'Management', href: '/admin/management' },
         { icon: Users, label: 'Users', href: '/admin/users' },
         { icon: ShoppingBag, label: 'Orders', href: '/admin/orders' },
-        // { icon: Package, label: 'Products', href: '/admin/products' },
+        { icon: Package, label: 'Others', href: '/admin/others' },
         { icon: Settings, label: 'Settings', href: '/admin/settings' },
     ];
 
