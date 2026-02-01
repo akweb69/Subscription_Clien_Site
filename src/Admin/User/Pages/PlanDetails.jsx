@@ -9,9 +9,11 @@ import {
     AlertCircle,
     ShieldCheck,
     Globe,
-    CheckCircle2
+    CheckCircle2,
+    Eye,
+    EyeOff
 } from 'lucide-react';
-import { toast } from 'react-hot-toast'; // ← install: npm install react-hot-toast
+import { toast } from 'react-hot-toast';
 
 const PlanDetails = () => {
     const { id } = useParams();
@@ -20,6 +22,8 @@ const PlanDetails = () => {
     const [order, setOrder] = useState(null);
     const [subscription, setSubscription] = useState(null);
     const [platforms, setPlatforms] = useState([]);
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+    const [visiblePasswords, setVisiblePasswords] = useState({});
 
     const baseURL = import.meta.env.VITE_BASE_URL;
 
@@ -37,16 +41,18 @@ const PlanDetails = () => {
         }
     };
 
+
     useEffect(() => {
         const loadData = async () => {
             try {
                 setLoading(true);
                 setError(null);
 
-                const [ordersRes, subsRes, platformsRes] = await Promise.all([
+                const [ordersRes, subsRes, platformsRes, passwordVisibilityData] = await Promise.all([
                     axios.get(`${baseURL}/order`),
                     axios.get(`${baseURL}/subscription`),
                     axios.get(`${baseURL}/platform`),
+                    axios.get(`${baseURL}/copy-btn`),
                 ]);
 
                 const foundOrder = ordersRes.data.find((o) => o._id === id);
@@ -64,6 +70,10 @@ const PlanDetails = () => {
                     platformIds.includes(p._id)
                 );
 
+                if (passwordVisibilityData.data) {
+                    setIsPasswordVisible(passwordVisibilityData?.data?.copy_btn_visibility);
+                }
+
                 setOrder(foundOrder);
                 setSubscription(foundSub);
                 setPlatforms(matchedPlatforms);
@@ -77,6 +87,18 @@ const PlanDetails = () => {
 
         loadData();
     }, [id, baseURL]);
+
+    const renderPassword = (platformId, password) => {
+        // If global visibility is enabled OR individual password is toggled visible
+        const shouldShowPassword = isPasswordVisible || visiblePasswords[platformId];
+
+        if (shouldShowPassword) {
+            return password || '—';
+        }
+
+        // Show dots if password exists
+        return password ? '••••••••••' : '—';
+    };
 
     if (loading) {
         return (
@@ -103,7 +125,7 @@ const PlanDetails = () => {
 
     return (
         <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
-            <div className=" mx-auto">
+            <div className="mx-auto">
                 {/* Header Card */}
                 <div className="bg-white rounded-2xl shadow-lg overflow-hidden mb-8 border border-gray-200">
                     <div className="bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-8 text-white">
@@ -196,10 +218,14 @@ const PlanDetails = () => {
                                                 <Key className="h-5 w-5 text-gray-500 flex-shrink-0" />
                                                 <div className="flex-1 min-w-0">
                                                     <p className="text-sm text-gray-500">Password</p>
-                                                    <p className="font-medium text-gray-900 font-mono">
-                                                        {platform.platformPassword || '—'}
+                                                    <p className={`font-medium text-gray-900 ${!isPasswordVisible && !visiblePasswords[platform._id] ? 'font-mono tracking-wider' : 'font-mono'}`}>
+                                                        {renderPassword(platform._id, platform.platformPassword)}
                                                     </p>
                                                 </div>
+
+
+
+                                                {/* Copy Button - Always enabled */}
                                                 {platform.platformPassword && (
                                                     <button
                                                         onClick={() =>
@@ -220,8 +246,6 @@ const PlanDetails = () => {
                     )}
                 </div>
             </div>
-
-
         </div>
     );
 };
