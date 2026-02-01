@@ -2,7 +2,9 @@ import React, { useContext, useState } from 'react';
 import {
     LayoutDashboard, User, CreditCard, History, Heart, Settings, LogOut,
     ChevronLeft, ChevronRight, Menu,
-    Home
+    Home,
+    Link2,
+    Stamp
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { AppContext } from '@/context/AppContext';
@@ -18,8 +20,8 @@ const UserAsideBar = () => {
         { icon: User, label: 'Profile', href: '/dashboard/profile' },
         // { icon: CreditCard, label: 'Payments', href: '/dashboard/payments' },
         { icon: History, label: 'Order History', href: '/dashboard/order_history' },
-        // { icon: Heart, label: 'Wishlist', href: '/dashboard/wishlist' },
-        // { icon: Settings, label: 'Settings', href: '/dashboard/settings' },
+        { icon: Stamp, label: 'Visit Plans', href: '/plans' },
+        { icon: Link2, label: 'Quick Links', href: '/dashboard/settings' },
     ];
 
     return (
