@@ -1,5 +1,7 @@
 import React from 'react';
 import CouponSells from './CouponSells';
+import CopyBtnVissibilty from './CopyBtnVissibilty';
+import { motion } from 'framer-motion';
 
 const Others = () => {
     const [activeTab, setActiveTab] = React.useState(0);
@@ -13,9 +15,25 @@ const Others = () => {
 
             {/* main content */}
             {
-                activeTab === 0 && <div className="">
+                activeTab === 0 && <motion.div
+                    initial={{ opacity: 0, y: 200 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 200 }}
+                    transition={{ duration: 0.5 }}
+
+                    className="">
                     <CouponSells />
-                </div>
+                </motion.div>
+            }
+            {
+                activeTab === 1 && <motion.div
+                    initial={{ opacity: 0, y: 200 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 200 }}
+                    transition={{ duration: 0.5 }}
+                    className="">
+                    <CopyBtnVissibilty />
+                </motion.div>
             }
         </div>
     );
