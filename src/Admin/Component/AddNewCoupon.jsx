@@ -162,7 +162,7 @@ const AddNewCoupon = () => {
                             Live Preview
                         </h2>
 
-                        <div className="flex-1 flex items-center justify-center bg-gradient-to-br from-indigo-50 to-purple-50 rounded-xl  border-2 border-dashed border-indigo-200">
+                        <div className="flex-1 flex items-center justify-center bg-gradient-to-br from-indigo-50 to-purple-50 rounded-xl lg:p-8 border-2 border-dashed border-indigo-200">
                             <div className="w-full max-w-sm bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200">
                                 {/* Coupon Card Header */}
                                 <div className="bg-indigo-600 px-6 py-5 text-white">
