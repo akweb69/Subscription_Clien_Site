@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     Save, Trash2, Edit, Eye, EyeOff, Loader2,
-    AlertTriangle
+    AlertTriangle, Link2
 } from 'lucide-react';
 import toast, { Toaster } from 'react-hot-toast';
 import usePlatform from '../Hooks/usePlatform';
@@ -17,6 +17,7 @@ const ManagePlatform = () => {
     const [editMode, setEditMode] = useState({});
     const [formData, setFormData] = useState({});
     const [showPassword, setShowPassword] = useState({});
+
     const [deletingId, setDeletingId] = useState(null);
     const [updatingId, setUpdatingId] = useState(null);
 
@@ -29,6 +30,7 @@ const ManagePlatform = () => {
             [platform._id]: {
                 platformEmail: platform.platformEmail || '',
                 platformPassword: platform.platformPassword || '',
+                platformLink: platform.platformLink || '',   // ← new field
             }
         }));
     };
@@ -56,7 +58,8 @@ const ManagePlatform = () => {
         if (!formData[id]) return false;
         return (
             formData[id].platformEmail !== (original.platformEmail || '') ||
-            formData[id].platformPassword !== (original.platformPassword || '')
+            formData[id].platformPassword !== (original.platformPassword || '') ||
+            formData[id].platformLink !== (original.platformLink || '')   // ← added
         );
     };
 
@@ -65,25 +68,25 @@ const ManagePlatform = () => {
         const updates = formData[id] || {};
 
         if (!hasChanges(id, platform)) {
-            toast('Nothing changed', { icon: 'ℹ️' });
+            toast('No changes detected', { icon: 'ℹ️' });
             exitEditMode(id);
             return;
         }
 
         setUpdatingId(id);
-        const toastId = toast.loading('Updating...');
+        const toastId = toast.loading('Updating platform...');
 
         try {
             const res = await axios.patch(`${base_url}/platform/${id}`, updates);
 
             if (res.data.modifiedCount === 1) {
-                toast.success('Updated successfully!', { id: toastId });
+                toast.success('Platform updated!', { id: toastId });
                 platformRefetch();
             } else {
-                toast.error('Update failed', { id: toastId });
+                toast.error('Update failed – no changes applied', { id: toastId });
             }
         } catch (err) {
-            toast.error('Something went wrong', { id: toastId });
+            toast.error(err.response?.data?.message || 'Update failed', { id: toastId });
             console.error(err);
         } finally {
             setUpdatingId(null);
@@ -92,7 +95,7 @@ const ManagePlatform = () => {
     };
 
     const handleDelete = async (id, name) => {
-        if (!confirm(`Really delete "${name}"?`)) return;
+        if (!confirm(`Delete platform "${name}"? This action cannot be undone.`)) return;
 
         setDeletingId(id);
         const toastId = toast.loading('Deleting...');
@@ -101,10 +104,10 @@ const ManagePlatform = () => {
             const res = await axios.delete(`${base_url}/platform/${id}`);
 
             if (res.data.deletedCount === 1) {
-                toast.success('Deleted!', { id: toastId });
+                toast.success('Platform deleted', { id: toastId });
                 platformRefetch();
             } else {
-                toast.error('Not found', { id: toastId });
+                toast.error('Platform not found', { id: toastId });
             }
         } catch (err) {
             toast.error('Delete failed', { id: toastId });
@@ -138,8 +141,8 @@ const ManagePlatform = () => {
                     className="text-center py-16 text-gray-500 bg-white/40 rounded-xl border border-dashed border-gray-300"
                 >
                     <AlertTriangle className="mx-auto h-12 w-12 text-amber-500 mb-4" />
-                    <p className="text-lg font-medium">No platforms yet</p>
-                    <p className="mt-2">Add your first platform from the dashboard</p>
+                    <p className="text-lg font-medium">No platforms added yet</p>
+                    <p className="mt-2">You can add platforms from the "Add New Platform" section.</p>
                 </motion.div>
             ) : (
                 <div className="grid gap-5 sm:gap-6">
@@ -156,7 +159,7 @@ const ManagePlatform = () => {
                                     initial={{ opacity: 0, y: 20, scale: 0.98 }}
                                     animate={{ opacity: 1, y: 0, scale: 1 }}
                                     exit={{ opacity: 0, y: -20, scale: 0.95 }}
-                                    whileHover={{ scale: 1.01, transition: { duration: 0.2 } }}
+                                    whileHover={{ scale: 1.01 }}
                                     className="bg-white/80 backdrop-blur-sm rounded-xl border border-emerald-100/70 shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden"
                                 >
                                     <div className="p-5 sm:p-6">
@@ -181,7 +184,7 @@ const ManagePlatform = () => {
                                                             ) : (
                                                                 <Save className="h-4 w-4" />
                                                             )}
-                                                            Save
+                                                            Save Changes
                                                         </button>
                                                         <button
                                                             onClick={() => exitEditMode(p._id)}
@@ -193,7 +196,7 @@ const ManagePlatform = () => {
                                                 ) : (
                                                     <button
                                                         onClick={() => enterEditMode(p)}
-                                                        disabled={isDeleting}
+                                                        disabled={isDeleting || isUpdating}
                                                         className="flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg bg-emerald-100 hover:bg-emerald-200 text-emerald-700 transition"
                                                     >
                                                         <Edit className="h-4 w-4" />
@@ -219,8 +222,31 @@ const ManagePlatform = () => {
                                             </div>
                                         </div>
 
-                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                                            {/* Email Field */}
+                                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                                            {/* Platform Link */}
+                                            <div className="relative">
+                                                <input
+                                                    type="url"
+                                                    value={
+                                                        isEditing
+                                                            ? formData[p._id]?.platformLink ?? ''
+                                                            : p.platformLink ?? ''
+                                                    }
+                                                    onChange={(e) => isEditing && handleInputChange(p._id, 'platformLink', e.target.value.trim())}
+                                                    disabled={!isEditing}
+                                                    placeholder=" "
+                                                    className={`peer w-full px-4 pt-6 pb-2 pl-10 border rounded-lg bg-white/50 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-400/40 ${isEditing
+                                                        ? 'border-emerald-400 focus:border-emerald-500'
+                                                        : 'border-gray-300 cursor-default'
+                                                        }`}
+                                                />
+                                                <Link2 className="absolute left-3 top-4 text-emerald-600" size={18} />
+                                                <label className="absolute left-10 top-2 text-xs font-medium text-gray-500 pointer-events-none transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-sm peer-focus:top-2 peer-focus:text-xs">
+                                                    Platform Link (URL)
+                                                </label>
+                                            </div>
+
+                                            {/* Email */}
                                             <div className="relative">
                                                 <input
                                                     type="email"
@@ -238,11 +264,11 @@ const ManagePlatform = () => {
                                                         }`}
                                                 />
                                                 <label className="absolute left-4 top-2 text-xs font-medium text-gray-500 pointer-events-none transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-sm peer-focus:top-2 peer-focus:text-xs">
-                                                    Platform Email
+                                                    Platform Email / Username
                                                 </label>
                                             </div>
 
-                                            {/* Password Field */}
+                                            {/* Password */}
                                             <div className="relative">
                                                 <input
                                                     type={showPassword[p._id] ? 'text' : 'password'}
