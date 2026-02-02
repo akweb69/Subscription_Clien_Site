@@ -110,24 +110,24 @@ const ManagementAll = () => {
             shadow: "shadow-indigo-200",
             accentColor: "indigo"
         },
+        // {
+        //     name: "Cradential Video",
+        //     icon: Video,
+        //     gradient: "from-blue-500 via-cyan-500 to-teal-500",
+        //     bgGradient: "from-blue-50 to-cyan-50",
+        //     shadow: "shadow-emerald-200",
+        //     accentColor: "emerald"
+        // },
+        // {
+        //     name: "Manage Cradential Video",
+        //     icon: Video,
+        //     gradient: "from-blue-500 via-cyan-500 to-teal-500",
+        //     bgGradient: "from-blue-50 to-cyan-50",
+        //     shadow: "shadow-emerald-200",
+        //     accentColor: "emerald"
+        // },
         {
-            name: "Cradential Video",
-            icon: Video,
-            gradient: "from-blue-500 via-cyan-500 to-teal-500",
-            bgGradient: "from-blue-50 to-cyan-50",
-            shadow: "shadow-emerald-200",
-            accentColor: "emerald"
-        },
-        {
-            name: "Manage Cradential Video",
-            icon: Video,
-            gradient: "from-blue-500 via-cyan-500 to-teal-500",
-            bgGradient: "from-blue-50 to-cyan-50",
-            shadow: "shadow-emerald-200",
-            accentColor: "emerald"
-        },
-        {
-            name: " Cockies Video",
+            name: " Tutorial Video",
             icon: Video,
             gradient: "from-violet-500 via-purple-500 to-fuchsia-500",
             bgGradient: "from-violet-50 to-purple-50",
@@ -135,7 +135,7 @@ const ManagementAll = () => {
             accentColor: "indigo"
         },
         {
-            name: "Manage Cockies Video",
+            name: "Manage Tutorial Video",
             icon: Video,
             gradient: "from-violet-500 via-purple-500 to-fuchsia-500",
             bgGradient: "from-violet-50 to-purple-50",
@@ -326,7 +326,7 @@ const ManagementAll = () => {
                     variants={containerVariants}
                     initial="hidden"
                     animate="visible"
-                    className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-3  mb-8"
+                    className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3  mb-8"
                 >
                     {allTabs.map((tab, index) => {
                         const isActive = activeTab === index;
@@ -349,7 +349,7 @@ const ManagementAll = () => {
                                 <div className={`relative h-full bg-gradient-to-br ${isActive
                                     ? tab.gradient
                                     : 'from-white to-slate-50'
-                                    } p-2  transition-all duration-500 border-2 ${isActive
+                                    } p-2 py-4 md:py-8 transition-all duration-500 border-2 ${isActive
                                         ? 'border-white/40'
                                         : 'border-slate-200'
                                     } shadow-lg hover:shadow-2xl`}>
@@ -373,7 +373,7 @@ const ManagementAll = () => {
                                                 scale: [1, 1.1, 1.1, 1]
                                             } : {}}
                                             transition={{ duration: 0.5 }}
-                                            className={`relative w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center ${isActive
+                                            className={`relative w-8 h-8 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center ${isActive
                                                 ? 'bg-white/25 backdrop-blur-sm'
                                                 : `bg-gradient-to-br ${tab.gradient}`
                                                 } shadow-lg`}
@@ -456,10 +456,10 @@ const ManagementAll = () => {
                                 {activeTab === 7 && <EditCategory />}
                                 {activeTab === 8 && <AddNewCoupon />}
                                 {activeTab === 9 && <ManageCoupons />}
-                                {activeTab === 10 && <CradentialVideo />}
-                                {activeTab === 11 && <ManageCredentialVideo />}
-                                {activeTab === 12 && <CockeisVideo />}
-                                {activeTab === 13 && <ManageCookiesVideo />}
+                                {/* {activeTab === 10 && <CradentialVideo />}
+                                {activeTab === 11 && <ManageCredentialVideo />} */}
+                                {activeTab === 10 && <CockeisVideo />}
+                                {activeTab === 11 && <ManageCookiesVideo />}
                             </div>
 
                             {/* Decorative Background Pattern */}
