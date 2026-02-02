@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Save, Loader2, Link as LinkIcon, MessageCircle, Send } from 'lucide-react';
+import { Save, Loader2, Link as LinkIcon, MessageCircle, Send, Phone } from 'lucide-react';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 
@@ -11,8 +11,11 @@ const ManageQuickLinks = () => {
 
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
+
     const [whatsappLink, setWhatsappLink] = useState('');
     const [telegramLink, setTelegramLink] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');      // ← new field
+
     const [originalData, setOriginalData] = useState({});
 
     useEffect(() => {
@@ -28,14 +31,16 @@ const ManageQuickLinks = () => {
 
             setWhatsappLink(data.whatsapp || '');
             setTelegramLink(data.telegram || '');
+            setPhoneNumber(data.phone || '');                    // ← new
 
             setOriginalData({
                 whatsapp: data.whatsapp || '',
                 telegram: data.telegram || '',
+                phone: data.phone || '',                         // ← new
             });
         } catch (err) {
             console.error("Failed to load quick links:", err);
-            toast.error("Failed to load links");
+            toast.error("Failed to load data");
         } finally {
             setLoading(false);
         }
@@ -44,44 +49,53 @@ const ManageQuickLinks = () => {
     const hasChanges = () => {
         return (
             whatsappLink.trim() !== originalData.whatsapp ||
-            telegramLink.trim() !== originalData.telegram
+            telegramLink.trim() !== originalData.telegram ||
+            phoneNumber.trim() !== originalData.phone           // ← new
         );
     };
 
     const handleSave = async () => {
-        const links = {
+        const payload = {
             whatsapp: whatsappLink.trim(),
             telegram: telegramLink.trim(),
+            phone: phoneNumber.trim(),                          // ← new
             // facebook is intentionally NOT sent anymore
         };
 
         // Optional light validation
-        if (links.whatsapp && !links.whatsapp.includes('whatsapp.com') && !links.whatsapp.includes('wa.me')) {
+        if (payload.whatsapp && !payload.whatsapp.includes('whatsapp.com') && !payload.whatsapp.includes('wa.me')) {
             toast.error("WhatsApp link should contain 'wa.me' or 'whatsapp.com'");
             return;
         }
 
+        // Optional: very basic phone check (Bangladesh style)
+        if (payload.phone && !/^(01[3-9]\d{8}|8801[3-9]\d{8})$/.test(payload.phone.replace(/\s+/g, ''))) {
+            toast.error("Please enter a valid Bangladeshi phone number (e.g. 01712345678 or 8801712345678)");
+            return;
+        }
+
         setSaving(true);
-        const toastId = toast.loading("Saving quick links...");
+        const toastId = toast.loading("Saving...");
 
         try {
-            const res = await axios.post(`${base_url}/quick-links`, links, {
+            const res = await axios.post(`${base_url}/quick-links`, payload, {
                 headers: { 'Content-Type': 'application/json' }
             });
 
             if (res.data?.acknowledged || res.status < 300) {
-                toast.success("Quick links updated!", { id: toastId });
+                toast.success("Updated successfully!", { id: toastId });
 
                 setOriginalData({
-                    whatsapp: links.whatsapp,
-                    telegram: links.telegram,
+                    whatsapp: payload.whatsapp,
+                    telegram: payload.telegram,
+                    phone: payload.phone,                        // ← new
                 });
             } else {
                 throw new Error("Save failed");
             }
         } catch (err) {
             console.error(err);
-            toast.error(err.response?.data?.message || "Failed to save links", { id: toastId });
+            toast.error(err.response?.data?.message || "Failed to save", { id: toastId });
         } finally {
             setSaving(false);
         }
@@ -104,11 +118,32 @@ const ManageQuickLinks = () => {
             <div className="mb-8">
                 <h1 className="text-2xl font-bold text-gray-800">Manage Quick Links</h1>
                 <p className="text-gray-600 mt-1">
-                    Update WhatsApp and Telegram links shown to users
+                    Update WhatsApp, Telegram & Phone number shown to users
                 </p>
             </div>
 
             <div className="space-y-6">
+
+                {/* Phone Number - NEW FIELD */}
+                <div className="space-y-2">
+                    <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
+                        <Phone className="h-4 w-4 text-red-600" />
+                        Support Phone Number
+                    </label>
+                    <div className="relative">
+                        <Input
+                            value={phoneNumber}
+                            onChange={(e) => setPhoneNumber(e.target.value)}
+                            placeholder="01712345678 or 8801712345678"
+                            className="pl-10"
+                            disabled={saving}
+                        />
+                        <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                    </div>
+                    <p className="text-xs text-gray-500">
+                        Without + or - or spaces (BD format preferred)
+                    </p>
+                </div>
 
                 {/* WhatsApp */}
                 <div className="space-y-2">
