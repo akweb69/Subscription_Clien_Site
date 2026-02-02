@@ -15,7 +15,8 @@ import {
     UserPlus,
     Download,
     RefreshCw,
-    AlertCircle
+    AlertCircle,
+    CreditCard
 } from 'lucide-react';
 import toast, { Toaster } from 'react-hot-toast';
 import axios from 'axios';
@@ -29,16 +30,23 @@ const Users = () => {
     const [selectedUser, setSelectedUser] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
+    const [selectedOrders, setSelectedOrders] = useState([]);
+    const [orders, setOrders] = useState([]);
 
     // Load users from API
     const loadUsers = async () => {
         setLoading(true);
         try {
             const res = await axios.get(`${base_url}/users`);
+            const res2 = await axios.get(`${base_url}/order`);
             if (res.data) {
                 setUsers(res.data);
                 setFilteredUsers(res.data);
             }
+            if (res2.data) {
+                setOrders(res2.data);
+            }
+
         } catch (error) {
             toast.error('Failed to load users');
             console.error('Error loading users:', error);
@@ -122,8 +130,10 @@ const Users = () => {
     };
 
     // View user details
-    const handleViewUser = (user) => {
+    const handleViewUser = async (user) => {
         setSelectedUser(user);
+        const filterOrders = orders.filter(o => o.userEmail === user.email);
+        setSelectedOrders(filterOrders);
         setShowModal(true);
     };
 
@@ -317,7 +327,7 @@ const Users = () => {
                                     {/* Password Indicator */}
                                     <div className="flex items-center gap-2 pt-3 border-t border-slate-100">
                                         <Shield className="w-4 h-4 text-emerald-500" />
-                                        <span className="text-xs text-slate-500 font-medium">Password Protected</span>
+                                        <span className="text-xs text-red-500 font-medium">Password Protected</span>
                                     </div>
                                 </div>
 
@@ -339,7 +349,7 @@ const Users = () => {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         onClick={() => setShowModal(false)}
-                        className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50"
+                        className="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 z-50"
                     >
                         <motion.div
                             variants={modalVariants}
@@ -347,76 +357,146 @@ const Users = () => {
                             animate="visible"
                             exit="exit"
                             onClick={(e) => e.stopPropagation()}
-                            className="bg-white rounded-3xl shadow-2xl max-w-lg w-full overflow-hidden"
+                            className="bg-white rounded-2xl sm:rounded-3xl shadow-xl sm:shadow-2xl w-full max-w-lg sm:max-w-xl md:max-w-2xl max-h-[90vh] overflow-y-auto"
                         >
-                            {/* Modal Header */}
-                            <div className="bg-linear-to-r from-teal-500 to-cyan-600 p-6 text-white">
-                                <div className="flex items-center gap-4">
-                                    <div className="w-20 h-20 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-3xl font-bold">
-                                        {selectedUser.name.charAt(0).toUpperCase()}
+                            {/* Header */}
+                            <div className="bg-gradient-to-r from-teal-600 via-teal-500 to-cyan-600 p-6 sm:p-8 text-white">
+                                <div className="flex items-center gap-4 sm:gap-5">
+                                    <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white/25 backdrop-blur-md flex items-center justify-center text-3xl sm:text-4xl font-bold shadow-inner ring-1 ring-white/30">
+                                        {selectedUser.name?.charAt(0)?.toUpperCase() || "?"}
                                     </div>
-                                    <div className="flex-1">
-                                        <h2 className="text-2xl font-bold mb-1">{selectedUser.name}</h2>
-                                        <p className="text-teal-100 text-sm">{selectedUser.email}</p>
+                                    <div className="flex-1 min-w-0">
+                                        <h2 className="text-xl sm:text-2xl font-bold tracking-tight mb-1 truncate">
+                                            {selectedUser.name}
+                                        </h2>
+                                        <p className="text-teal-50/90 text-sm sm:text-base truncate">
+                                            {selectedUser.email}
+                                        </p>
                                     </div>
                                 </div>
                             </div>
 
-                            {/* Modal Body */}
-                            <div className="p-6 space-y-4">
-                                <div className="space-y-3">
-                                    <div className="flex items-start gap-3 p-4 bg-slate-50 rounded-xl">
-                                        <User className="w-5 h-5 text-teal-600 mt-0.5" />
-                                        <div className="flex-1">
-                                            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">
+                            {/* Content */}
+                            <div className="p-5 sm:p-7 space-y-5 sm:space-y-6">
+                                {/* User Info Cards */}
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+                                    <div className="flex items-start gap-3.5 p-4 bg-slate-50/70 rounded-xl border border-slate-100">
+                                        <User className="w-5 h-5 text-teal-600 flex-shrink-0 mt-0.5" />
+                                        <div className="flex-1 min-w-0">
+                                            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">
                                                 Full Name
                                             </p>
-                                            <p className="text-slate-800 font-medium">{selectedUser.name}</p>
+                                            <p className="text-slate-800 font-medium truncate">
+                                                {selectedUser.name}
+                                            </p>
                                         </div>
                                     </div>
 
-                                    <div className="flex items-start gap-3 p-4 bg-slate-50 rounded-xl">
-                                        <Mail className="w-5 h-5 text-cyan-600 mt-0.5" />
-                                        <div className="flex-1">
-                                            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">
-                                                Email Address
+                                    <div className="flex items-start gap-3.5 p-4 bg-slate-50/70 rounded-xl border border-slate-100">
+                                        <Mail className="w-5 h-5 text-cyan-600 flex-shrink-0 mt-0.5" />
+                                        <div className="flex-1 min-w-0">
+                                            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">
+                                                Email
                                             </p>
-                                            <p className="text-slate-800 font-medium break-all">{selectedUser.email}</p>
-                                        </div>
-                                    </div>
-
-                                    <div className="flex items-start gap-3 p-4 bg-slate-50 rounded-xl">
-                                        <Shield className="w-5 h-5 text-emerald-600 mt-0.5" />
-                                        <div className="flex-1">
-                                            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">
-                                                User ID
+                                            <p className="text-slate-800 font-medium break-all">
+                                                {selectedUser.email}
                                             </p>
-                                            <p className="text-slate-800 font-mono text-sm">{selectedUser._id.$oid}</p>
                                         </div>
                                     </div>
                                 </div>
 
-                                {/* Modal Actions */}
-                                <div className="flex gap-3 pt-4">
+                                {/* Orders Section */}
+                                <div className="space-y-4">
+                                    <div className="flex items-center justify-between">
+                                        <h3 className="text-sm font-semibold text-slate-700 flex items-center gap-2">
+                                            <CreditCard className="w-4.5 h-4.5 text-slate-500" />
+                                            Orders History
+                                        </h3>
+                                        {selectedOrders.length > 0 && (
+                                            <div className="bg-teal-100 text-teal-800 text-xs font-medium px-2.5 py-1 rounded-full">
+                                                {selectedOrders.length}
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    {selectedOrders.length > 0 ? (
+                                        <div className="space-y-3">
+                                            {selectedOrders.map((order) => {
+                                                const orderDate = new Date(order.orderDate);
+                                                const validUntil = new Date(orderDate);
+                                                validUntil.setDate(orderDate.getDate() + (order.validityDays || 0));
+
+                                                return (
+                                                    <div
+                                                        key={order._id?.$oid || order._id}
+                                                        className="p-4 bg-white border border-slate-200 rounded-xl shadow-sm hover:shadow transition-shadow"
+                                                    >
+                                                        <div className="flex items-start justify-between gap-3">
+                                                            <div className="min-w-0 flex-1">
+                                                                <p className="font-semibold text-slate-800 mb-1">
+                                                                    {order.planName}
+                                                                </p>
+                                                                <div className="text-xs text-slate-500 space-y-0.5">
+                                                                    <p>
+                                                                        Ordered:{" "}
+                                                                        <span className="text-slate-700">
+                                                                            {orderDate.toLocaleDateString("en-GB")}
+                                                                        </span>
+                                                                    </p>
+                                                                    <p>
+                                                                        Valid until:{" "}
+                                                                        <span className="text-slate-700">
+                                                                            {validUntil.toLocaleDateString("en-GB")}
+                                                                        </span>
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+
+                                                            <span
+                                                                className={`text-xs font-medium px-3 py-1 rounded-full whitespace-nowrap
+                            ${order.status === "active"
+                                                                        ? "bg-green-100 text-green-700 border border-green-200"
+                                                                        : order.status === "pending"
+                                                                            ? "bg-amber-100 text-amber-700 border border-amber-200"
+                                                                            : "bg-rose-100 text-rose-700 border border-rose-200"
+                                                                    }`}
+                                                            >
+                                                                {order.status}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
+                                    ) : (
+                                        <div className="p-5 bg-slate-50 border border-slate-200 rounded-xl text-center">
+                                            <p className="text-slate-500 text-sm">No orders found for this user</p>
+                                        </div>
+                                    )}
+                                </div>
+
+                                {/* Actions */}
+                                <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-slate-100 mt-2">
                                     <motion.button
                                         whileHover={{ scale: 1.02 }}
                                         whileTap={{ scale: 0.98 }}
                                         onClick={() => setShowModal(false)}
-                                        className="flex-1 px-6 py-3 bg-slate-100 text-slate-700 font-semibold rounded-xl hover:bg-slate-200 transition-colors"
+                                        className="flex-1 py-3 px-5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium rounded-xl transition-colors order-2 sm:order-1"
                                     >
                                         Close
                                     </motion.button>
+
                                     <motion.button
                                         whileHover={{ scale: 1.02 }}
                                         whileTap={{ scale: 0.98 }}
                                         onClick={() => {
-                                            handleDeleteUser(selectedUser._id.$oid);
+                                            handleDeleteUser(selectedUser._id?.$oid || selectedUser._id);
                                             setShowModal(false);
                                         }}
-                                        className="px-6 py-3 bg-linear-to-r from-red-500 to-rose-600 text-white font-semibold rounded-xl hover:shadow-lg transition-all flex items-center gap-2"
+                                        className="flex-1 py-3 px-5 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-700 hover:to-rose-700 text-white font-medium rounded-xl shadow-sm hover:shadow transition-all flex items-center justify-center gap-2 order-1 sm:order-2"
                                     >
                                         <Trash2 className="w-4 h-4" />
-                                        Delete
+                                        Delete User
                                     </motion.button>
                                 </div>
                             </div>
