@@ -1,11 +1,37 @@
 import useSettingsData from "@/Admin/Hooks/useSettingsData";
+import axios from "axios";
 import { Toolbox } from "lucide-react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 
 const Footer = () => {
-    const { settingsLoading, settingsData } = useSettingsData()
+    const { settingsLoading, settingsData } = useSettingsData();
+    const base_url = import.meta.env.VITE_BASE_URL;
+
+    const [links, setLinks] = useState({ whatsapp: '', telegram: '', phone: '' });
+    const [loading, setLoading] = useState(true);
+    const footerLinks = [
+        { label: "Home", path: "/" },
+        { label: "Plans", path: "/plans" },
+        { label: "Terms and Conditions", path: "/terms-and-conditions" },
+        { label: "Privacy Policy", path: "/privacy-policy" },
+    ];
+    useEffect(() => {
+        axios
+            .get(`${base_url}/quick-links`)
+            .then((res) => {
+                const data = res.data || {};
+                setLinks({
+                    whatsapp: data.whatsapp || '',
+                    telegram: data.telegram || '',
+                    phone: data.phone || '',
+                });
+            })
+            .catch((err) => console.error('Quick links fetch failed:', err))
+            .finally(() => setLoading(false));
+    }, []);
+
     return (
         <footer className="bg-gray-50 dark:bg-gray-900 text-gray-600 dark:text-gray-300 pt-16 pb-8 border-t border-gray-200 dark:border-gray-700">
             <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
@@ -25,13 +51,13 @@ const Footer = () => {
                     <div className="space-y-2">
                         <h4 className="text-sm font-semibold text-gray-900 dark:text-white">Quick Links</h4>
                         <ul className="space-y-1 text-sm">
-                            {["Home", "Plans"].map((link) => (
-                                <li key={link}>
+                            {footerLinks.map(({ label, path }) => (
+                                <li key={label}>
                                     <Link
-                                        to={link === "Home" ? "/" : `/${link.toLowerCase()}`}
+                                        to={path}
                                         className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
                                     >
-                                        {link}
+                                        {label}
                                     </Link>
                                 </li>
                             ))}
@@ -40,18 +66,30 @@ const Footer = () => {
 
                     {/* Legal */}
                     <div className="space-y-2">
-                        <h4 className="text-sm font-semibold text-gray-900 dark:text-white">Legal</h4>
+                        <h4 className="text-sm font-semibold text-gray-900 dark:text-white">Support</h4>
                         <ul className="space-y-1 text-sm">
-                            {["Terms of Service", "Privacy Policy"].map((link) => (
-                                <li key={link}>
-                                    <a
-                                        href="#"
-                                        className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
-                                    >
-                                        {link}
-                                    </a>
-                                </li>
-                            ))}
+                            <li className="">
+                                {/* whatsapp support */}
+                                <a
+                                    href={`${links.whatsapp}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                                >
+                                    Whatsapp Support group
+                                </a>
+                            </li>
+                            <li className="">
+                                {/* telegram support */}
+                                <a
+                                    href={`${links.telegram}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                                >
+                                    Telegram Support chanel
+                                </a>
+                            </li>
                         </ul>
                     </div>
 

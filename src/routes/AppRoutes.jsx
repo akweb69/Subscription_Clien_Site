@@ -28,6 +28,8 @@ import AdminProtectedRoute from "./AdminProtectedRoute";
 import ManageAdmin from "@/Admin/Pages/ManageAdmin";
 import AddNotifications from "@/Admin/Component/AddNotifications";
 import QuickLinks from "@/Pages/QuickLinks";
+import PrivacyPolicy from "@/Pages/PrivecyPolicy";
+import TermsAndConditions from "@/Pages/TermsAndConditions";
 
 const AppRoutes = () => {
     return (
@@ -41,6 +43,9 @@ const AppRoutes = () => {
                 <Route path="/checkout/:planId" element={<CheckOut />} />
                 <Route path="/order-success" element={<OrderSuccess />} />
                 <Route path="/admin_signin" element={<AdminSignin />} />
+                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+
             </Route>
 
             {/* admin routes */}
