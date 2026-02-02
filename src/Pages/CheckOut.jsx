@@ -43,12 +43,10 @@ const CheckOut = () => {
     const [setting, setSetting] = useState({});
     const [plan, setPlan] = useState({});
 
-    // Payment method states
     const [activeMethod, setActiveMethod] = useState('bkash');
     const [senderNumber, setSenderNumber] = useState('');
     const [trxId, setTrxId] = useState('');
 
-    // Coupon states
     const [couponCode, setCouponCode] = useState('');
     const [appliedCoupon, setAppliedCoupon] = useState(null);
     const [discountAmount, setDiscountAmount] = useState(0);
@@ -81,17 +79,12 @@ const CheckOut = () => {
         loadData();
     }, [planId]);
 
-    // Coupon apply logic — only FIXED amounts
     const handleApplyCoupon = async () => {
         const validCoupons = await couponData;
         if (!couponCode.trim()) {
             toast.error('Please enter a coupon code');
             return;
         }
-
-
-        // Format: array of objects with couponCode + fixed discount amount
-
 
         const enteredCode = couponCode.trim().toUpperCase();
         const coupon = validCoupons.find(c => c.code === enteredCode);
@@ -100,12 +93,11 @@ const CheckOut = () => {
             toast.error('Invalid or expired coupon code', { duration: 4000 });
             return;
         }
-        if (coupon && coupon?.subscriptionName !== plan?.subscriptionName) {
+        if (coupon?.subscriptionName !== plan?.subscriptionName) {
             toast.error('This coupon is not valid for this plan', { duration: 4000 });
             return;
         }
 
-        // Fixed discount — cannot be more than plan price
         const discountVal = Math.min(coupon.discount, plan.price || 0);
 
         setDiscountAmount(discountVal);
@@ -137,7 +129,7 @@ const CheckOut = () => {
                 userName: user?.displayName,
                 planId: plan?._id,
                 planName: plan?.subscriptionName,
-                amount: finalAmount,              // final amount after discount
+                amount: finalAmount,
                 originalAmount: plan?.price,
                 discountAmount: discountAmount,
                 couponCode: appliedCoupon || null,
@@ -153,7 +145,6 @@ const CheckOut = () => {
             toast.success('Order placed successfully! 🎉', { duration: 4000 });
             navigate('/order-success');
 
-            // Reset form
             setSenderNumber('');
             setTrxId('');
             setCouponCode('');
@@ -170,7 +161,7 @@ const CheckOut = () => {
 
     if (uiLoading) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-gray-100">
+            <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-gray-100 px-4">
                 <motion.div
                     animate={{ rotate: 360 }}
                     transition={{ duration: 1.5, repeat: Infinity, ease: 'linear' }}
@@ -184,12 +175,12 @@ const CheckOut = () => {
 
     if (!plan?._id) {
         return (
-            <div className="min-h-screen flex items-center justify-center text-gray-600">
-                <div className="text-center">
+            <div className="min-h-screen flex items-center justify-center text-gray-600 px-4">
+                <div className="text-center max-w-md">
                     <h2 className="text-2xl font-bold mb-4">Plan not found</h2>
                     <button
                         onClick={() => navigate(-1)}
-                        className="text-emerald-600 hover:underline"
+                        className="mt-4 px-6 py-3 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 transition"
                     >
                         Go back
                     </button>
@@ -208,12 +199,12 @@ const CheckOut = () => {
     const activePayment = paymentMethods.find(m => m.id === activeMethod) || paymentMethods[0];
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 py-10 px-4">
+        <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 py-6 sm:py-10 px-4 sm:px-6 lg:px-8">
             <div className="max-w-5xl mx-auto">
                 <motion.h1
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="text-3xl md:text-4xl font-bold text-center mb-10 text-gray-800"
+                    className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 sm:mb-10 text-gray-800"
                 >
                     Complete Your Subscription
                 </motion.h1>
@@ -222,65 +213,65 @@ const CheckOut = () => {
                     variants={containerVariants}
                     initial="hidden"
                     animate="visible"
-                    className="grid md:grid-cols-2 gap-6 md:gap-8"
+                    className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8"
                 >
-                    {/* LEFT - Order Summary */}
-                    <motion.div variants={itemVariants} className="space-y-6">
+                    {/* LEFT - Summary Section */}
+                    <div className="space-y-5 sm:space-y-6 order-2 lg:order-1">
                         {/* User Info */}
-                        <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-xl border border-white/40 p-6">
-                            <div className="flex items-center gap-3 mb-5">
-                                <div className="p-3 bg-emerald-100 rounded-xl">
-                                    <User className="w-6 h-6 text-emerald-700" />
+                        <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-xl border border-white/40 p-5 sm:p-6">
+                            <div className="flex items-center gap-3 mb-4 sm:mb-5">
+                                <div className="p-2.5 sm:p-3 bg-emerald-100 rounded-xl">
+                                    <User className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-700" />
                                 </div>
-                                <h3 className="text-xl font-semibold text-gray-800">Your Information</h3>
+                                <h3 className="text-lg sm:text-xl font-semibold text-gray-800">Your Information</h3>
                             </div>
-                            <div className="space-y-3 text-gray-700">
+                            <div className="space-y-3 text-gray-700 text-sm sm:text-base">
                                 <div className="flex items-center gap-3">
-                                    <User className="w-5 h-5 text-gray-500" />
-                                    <span>{user?.displayName || 'Guest'}</span>
+                                    <User className="w-5 h-5 text-gray-500 flex-shrink-0" />
+                                    <span className="truncate">{user?.displayName || 'Guest'}</span>
                                 </div>
                                 <div className="flex items-center gap-3">
-                                    <Mail className="w-5 h-5 text-gray-500" />
+                                    <Mail className="w-5 h-5 text-gray-500 flex-shrink-0" />
                                     <span className="break-all">{user?.email}</span>
                                 </div>
                             </div>
                         </div>
 
-                        {/* Plan Details */}
-                        <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-xl border border-white/40 p-6">
-                            <div className="flex items-center gap-3 mb-5">
-                                <div className="p-3 bg-amber-100 rounded-xl">
-                                    <CreditCard className="w-6 h-6 text-amber-700" />
+                        {/* Plan Summary */}
+                        <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-xl border border-white/40 p-5 sm:p-6">
+                            <div className="flex items-center gap-3 mb-4 sm:mb-5">
+                                <div className="p-2.5 sm:p-3 bg-amber-100 rounded-xl">
+                                    <CreditCard className="w-5 h-5 sm:w-6 sm:h-6 text-amber-700" />
                                 </div>
-                                <h3 className="text-xl font-semibold text-gray-800">Plan Summary</h3>
+                                <h3 className="text-lg sm:text-xl font-semibold text-gray-800">Plan Summary</h3>
                             </div>
 
-                            <div className="space-y-4">
-                                <div className="flex justify-between text-lg font-medium">
+                            <div className="space-y-3 sm:space-y-4 text-sm sm:text-base">
+                                <div className="flex justify-between font-medium">
                                     <span>{plan.subscriptionName}</span>
-                                    <span>৳{plan.price}</span>
+                                    <span>৳{plan.price?.toLocaleString() || '0'}</span>
                                 </div>
 
                                 {discountAmount > 0 && (
-                                    <div className="flex justify-between text-sm text-green-600">
+                                    <div className="flex justify-between text-green-600">
                                         <span>Coupon Discount</span>
-                                        <span>-৳{discountAmount.toFixed(0)}</span>
+                                        <span>-৳{discountAmount.toLocaleString()}</span>
                                     </div>
                                 )}
 
-                                <div className="pt-4 border-t border-gray-200 flex justify-between items-center text-xl font-bold text-emerald-700">
+                                <div className="pt-3 sm:pt-4 border-t border-gray-200 flex justify-between items-center text-base sm:text-xl font-bold text-emerald-700">
                                     <span>Total to Pay</span>
-                                    <span>৳{finalAmount.toFixed(0)}</span>
+                                    <span>৳{finalAmount.toLocaleString()}</span>
                                 </div>
 
-                                <div className="text-sm text-gray-600">
+                                <div className="text-xs sm:text-sm text-gray-600">
                                     Valid for {plan.validityDays} days
                                 </div>
                             </div>
                         </div>
 
-                        {/* Coupon Input */}
-                        <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-xl border border-white/40 p-6">
+                        {/* Coupon */}
+                        <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-xl border border-white/40 p-5 sm:p-6">
                             <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
                                 <CreditCard className="w-5 h-5 text-indigo-600" />
                                 Have a coupon?
@@ -291,12 +282,12 @@ const CheckOut = () => {
                                     value={couponCode}
                                     onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
                                     placeholder="Enter coupon code"
-                                    className="flex-1 px-4 py-3 border border-gray-300 rounded-xl focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none"
+                                    className="flex-1 px-4 py-3 border border-gray-300 rounded-xl focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none text-sm sm:text-base"
                                 />
                                 <button
                                     onClick={handleApplyCoupon}
-                                    disabled={!couponCode.trim() || appliedCoupon}
-                                    className={`px-6 py-3 rounded-xl font-medium transition-all
+                                    disabled={!couponCode.trim() || appliedCoupon || couponLoading}
+                                    className={`w-full sm:w-auto px-6 py-3 rounded-xl font-medium transition-all min-h-[48px]
                     ${appliedCoupon
                                             ? 'bg-green-600 text-white cursor-not-allowed'
                                             : 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-md'}
@@ -307,26 +298,26 @@ const CheckOut = () => {
                             </div>
                             {appliedCoupon && (
                                 <p className="mt-3 text-sm text-green-700">
-                                    Coupon {appliedCoupon} applied • Saved ৳{discountAmount.toFixed(0)}
+                                    Coupon {appliedCoupon} applied • Saved ৳{discountAmount.toLocaleString()}
                                 </p>
                             )}
                         </div>
-                    </motion.div>
+                    </div>
 
-                    {/* RIGHT - Payment & Form */}
-                    <motion.div variants={itemVariants}>
-                        <div className="bg-white/85 backdrop-blur-lg rounded-2xl shadow-2xl border border-white/50 p-6 md:p-8 sticky top-6">
-                            <div className="flex items-center gap-3 mb-6">
-                                <div className="p-3 bg-emerald-100 rounded-xl">
-                                    <Wallet className="w-6 h-6 text-emerald-700" />
+                    {/* RIGHT - Payment Section */}
+                    <div className="order-1 lg:order-2 lg:sticky lg:top-6 h-fit">
+                        <div className="bg-white/85 backdrop-blur-lg rounded-2xl shadow-2xl border border-white/50 p-5 sm:p-6 md:p-8">
+                            <div className="flex items-center gap-3 mb-5 sm:mb-6">
+                                <div className="p-2.5 sm:p-3 bg-emerald-100 rounded-xl">
+                                    <Wallet className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-700" />
                                 </div>
-                                <h3 className="text-xl font-semibold text-gray-800">Payment Details</h3>
+                                <h3 className="text-lg sm:text-xl font-semibold text-gray-800">Payment Details</h3>
                             </div>
 
-                            {/* Payment Method Tabs */}
+                            {/* Payment Methods */}
                             {paymentMethods.length > 0 && (
-                                <div className="mb-6">
-                                    <div className="flex overflow-x-auto gap-2 pb-2 scrollbar-hide">
+                                <div className="mb-6 overflow-x-auto pb-2 scrollbar-hide">
+                                    <div className="flex gap-2.5 min-w-max">
                                         {paymentMethods.map((method) => (
                                             <button
                                                 key={method.id}
@@ -334,7 +325,7 @@ const CheckOut = () => {
                                                     setActiveMethod(method.id);
                                                     setSenderNumber('');
                                                 }}
-                                                className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium whitespace-nowrap transition-all
+                                                className={`flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-xl font-medium whitespace-nowrap transition-all min-h-[44px]
                           ${activeMethod === method.id
                                                         ? 'bg-indigo-600 text-white shadow-md'
                                                         : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
@@ -347,45 +338,40 @@ const CheckOut = () => {
                                 </div>
                             )}
 
-                            <p className="text-gray-600 mb-6 leading-relaxed">
-                                Send <strong className="text-emerald-700">৳{finalAmount.toFixed(0)}</strong> to the
-                                following {activePayment?.name} number.
+                            <p className="text-gray-600 mb-5 sm:mb-6 text-sm sm:text-base leading-relaxed">
+                                Send <strong className="text-emerald-700 font-semibold">৳{finalAmount.toLocaleString()}</strong> to the following {activePayment?.name} number.
                             </p>
 
-                            {/* Payment Number Display */}
                             {activePayment?.number && (
-                                <div className="bg-emerald-50/70 rounded-xl p-5 mb-6 border border-emerald-100">
-                                    <div className="flex items-center justify-between">
+                                <div className="bg-emerald-50/70 rounded-xl p-4 sm:p-5 mb-6 border border-emerald-100">
+                                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                                         <div>
                                             <div className="text-xs text-gray-500 mb-1">Send to ({activePayment.name})</div>
-                                            <div className="text-xl font-bold text-emerald-800 tracking-wide">
+                                            <div className="text-lg sm:text-xl font-bold text-emerald-800 tracking-wide break-all">
                                                 {activePayment.number}
                                             </div>
                                         </div>
                                         <button
                                             onClick={() => handleCopy(activePayment.number, `${activePayment.name} number`)}
-                                            className="flex items-center gap-2 px-4 py-2 bg-white rounded-lg shadow-sm hover:shadow-md transition-all"
+                                            className="flex items-center justify-center gap-2 px-5 py-2.5 bg-white rounded-lg shadow-sm hover:shadow-md transition-all w-full sm:w-auto min-h-[44px]"
                                         >
                                             <Copy size={18} className="text-emerald-600" />
-                                            <span className="text-sm font-medium text-emerald-700">Copy</span>
+                                            <span className="font-medium text-emerald-700">Copy</span>
                                         </button>
                                     </div>
                                 </div>
                             )}
 
-                            {/* Form Fields */}
-                            <div className="space-y-5">
+                            <div className="space-y-5 sm:space-y-6">
                                 <div className="relative">
                                     <input
                                         type="text"
                                         value={senderNumber}
                                         onChange={(e) => setSenderNumber(e.target.value)}
-                                        className="peer w-full px-4 pt-6 pb-2 border border-gray-300 rounded-xl focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 outline-none transition-all bg-white/60 backdrop-blur-sm"
+                                        className="peer w-full px-4 pt-6 pb-2 border border-gray-300 rounded-xl focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 outline-none transition-all bg-white/60 backdrop-blur-sm text-sm sm:text-base"
                                         placeholder=" "
                                     />
-                                    <label
-                                        className="absolute left-4 top-2 text-xs text-gray-500 peer-placeholder-shown:top-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-2 peer-focus:text-xs peer-focus:text-emerald-600 transition-all pointer-events-none"
-                                    >
+                                    <label className="absolute left-4 top-2 text-xs text-gray-500 peer-placeholder-shown:top-4 peer-placeholder-shown:text-sm peer-placeholder-shown:text-gray-400 peer-focus:top-2 peer-focus:text-xs peer-focus:text-emerald-600 transition-all pointer-events-none">
                                         Your {activePayment?.name} Number
                                     </label>
                                 </div>
@@ -395,29 +381,26 @@ const CheckOut = () => {
                                         type="text"
                                         value={trxId}
                                         onChange={(e) => setTrxId(e.target.value)}
-                                        className="peer w-full px-4 pt-6 pb-2 border border-gray-300 rounded-xl focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 outline-none transition-all bg-white/60 backdrop-blur-sm"
+                                        className="peer w-full px-4 pt-6 pb-2 border border-gray-300 rounded-xl focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 outline-none transition-all bg-white/60 backdrop-blur-sm text-sm sm:text-base"
                                         placeholder=" "
                                     />
-                                    <label
-                                        className="absolute left-4 top-2 text-xs text-gray-500 peer-placeholder-shown:top-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-2 peer-focus:text-xs peer-focus:text-emerald-600 transition-all pointer-events-none"
-                                    >
+                                    <label className="absolute left-4 top-2 text-xs text-gray-500 peer-placeholder-shown:top-4 peer-placeholder-shown:text-sm peer-placeholder-shown:text-gray-400 peer-focus:top-2 peer-focus:text-xs peer-focus:text-emerald-600 transition-all pointer-events-none">
                                         Transaction ID (TrxID)
                                     </label>
                                 </div>
                             </div>
 
-                            {/* Submit Button */}
                             <motion.button
                                 whileHover={{ scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}
                                 onClick={handleOrder}
                                 disabled={btnLoading}
                                 className={`
-                  mt-8 w-full py-4 px-6 rounded-xl font-semibold text-white flex items-center justify-center gap-3 shadow-lg
+                  mt-8 w-full py-4 px-6 rounded-xl font-semibold text-white flex items-center justify-center gap-3 shadow-lg min-h-[52px]
                   ${btnLoading
                                         ? 'bg-emerald-400 cursor-not-allowed'
                                         : 'bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700'}
-                  transition-all duration-300
+                  transition-all duration-300 text-base sm:text-lg
                 `}
                             >
                                 {btnLoading ? (
@@ -433,11 +416,11 @@ const CheckOut = () => {
                                 )}
                             </motion.button>
 
-                            <p className="text-center text-xs text-gray-500 mt-6">
+                            <p className="text-center text-xs sm:text-sm text-gray-500 mt-6">
                                 Plan will be activated within a few minutes after successful payment verification.
                             </p>
                         </div>
-                    </motion.div>
+                    </div>
                 </motion.div>
             </div>
         </div>
