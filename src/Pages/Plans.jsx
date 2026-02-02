@@ -123,7 +123,7 @@ const Plans = () => {
                     </select>
 
                     {/* show all catefory in btn  */}
-                    <div className="flex gap-3 items-center ">
+                    <div className="flex gap-3 items-center flex-wrap ">
 
                         {allCategory.map((cat) => (
                             <button
