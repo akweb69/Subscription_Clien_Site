@@ -27,6 +27,7 @@ const PlanDetails = () => {
     const [showTutorial, setShowTutorial] = useState(false);
     const [tutorialVideos, setTutorialVideos] = useState({});
     const [showSection, setShowSection] = useState(0)
+    const [activeTutorila, setActiveTutorila] = useState(0)
 
     const baseURL = import.meta.env.VITE_BASE_URL;
 
@@ -195,14 +196,58 @@ const PlanDetails = () => {
                                 }
                             </div>
 
+                            {showTutorial && (
+                                <div className="w-11/12 mb-4 mx-auto max-w-md grid grid-cols-1 md:grid-cols-2 gap-2">
+                                    <div
+                                        onClick={() => setActiveTutorila(0)}
+                                        className={`p-2 w-full cursor-pointer text-center rounded-full transition
+                ${activeTutorila === 0
+                                                ? "bg-emerald-600 text-white"
+                                                : "border bg-white shadow border-emerald-600 text-gray-950"
+                                            }`}
+                                    >
+                                        Show Desktop Tutorial
+                                    </div>
+
+                                    <div
+                                        onClick={() => setActiveTutorila(1)}
+                                        className={`p-2 w-full cursor-pointer text-center rounded-full transition
+                ${activeTutorila === 1
+                                                ? "bg-emerald-600 text-white"
+                                                : "border bg-white shadow border-emerald-600 text-gray-950"
+                                            }`}
+                                    >
+                                        Show Mobile Tutorial
+                                    </div>
+                                </div>
+                            )}
+
                             {/* tutorial video section youtube video link */}
                             <div className="">
                                 {
-                                    showTutorial && <div className="w-full h-full mb-4">
+                                    showTutorial && activeTutorila === 0 && <div className="w-full h-full mb-4">
                                         <div className="relative w-full pb-[56.25%] h-0 overflow-hidden rounded-xl">
                                             <iframe
                                                 className="absolute top-0 left-0 w-full h-full"
                                                 src={getYouTubeEmbedUrl(tutorialVideos?.windowsVideoLink)}
+                                                title="Tutorial Video"
+                                                frameBorder="0"
+                                                loading="lazy"
+                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                allowFullScreen
+                                            />
+                                        </div>
+
+
+
+                                    </div>
+                                }
+                                {
+                                    showTutorial && activeTutorila === 1 && <div className="w-full h-full mb-4">
+                                        <div className="relative w-full pb-[56.25%] h-0 overflow-hidden rounded-xl">
+                                            <iframe
+                                                className="absolute top-0 left-0 w-full h-full"
+                                                src={getYouTubeEmbedUrl(tutorialVideos?.mobileVideoLink)}
                                                 title="Tutorial Video"
                                                 frameBorder="0"
                                                 loading="lazy"
@@ -375,7 +420,7 @@ const PlanDetails = () => {
 
                 )
             }
-        </div>
+        </div >
     );
 };
 
