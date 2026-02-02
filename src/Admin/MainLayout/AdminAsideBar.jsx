@@ -12,7 +12,8 @@ import {
     FolderKanban,
     Home,
     Link2,
-    Group
+    Group,
+    Bell
 } from 'lucide-react'; // ← or use any icon library you prefer
 
 import './AdminAsideBar.css'; // we'll create this next
@@ -34,6 +35,7 @@ const AdminAsideBar = () => {
         { icon: Users, label: 'Users', href: '/admin/users' },
         { icon: Group, label: 'Admins', href: '/admin/manage_admins' },
         { icon: Package, label: 'Others', href: '/admin/others' },
+        { icon: Bell, label: 'Notifications', href: '/admin/notifications' },
         // { icon: Link2, label: 'Quick Links', href: '/admin/quick_links' },
         { icon: Settings, label: 'Settings', href: '/admin/settings' },
         { icon: Home, label: 'HomePage', href: '/' },

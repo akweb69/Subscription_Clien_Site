@@ -26,6 +26,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import AdminSignin from "./AdminSignin";
 import AdminProtectedRoute from "./AdminProtectedRoute";
 import ManageAdmin from "@/Admin/Pages/ManageAdmin";
+import AddNotifications from "@/Admin/Component/AddNotifications";
 
 const AppRoutes = () => {
     return (
@@ -53,6 +54,7 @@ const AppRoutes = () => {
                     <Route path="/admin/others" element={<Others />} />
                     <Route path="/admin/quick_links" element={<ManageQuickLinks />} />
                     <Route path="/admin/manage_admins" element={<ManageAdmin />} />
+                    <Route path="/admin/notifications" element={<AddNotifications />} />
                 </Route>
             </Route>
             {/* user Dashboard routes */}
