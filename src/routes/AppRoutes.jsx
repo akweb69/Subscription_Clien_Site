@@ -21,6 +21,7 @@ import PlanDetails from "@/Admin/User/Pages/PlanDetails";
 import CouponSells from "@/Admin/Pages/CouponSells";
 import Others from "@/Admin/Pages/Others";
 import OrderHistory from "@/Pages/OrderHistory";
+import ManageQuickLinks from "@/Admin/User/Pages/ManageQuickLinks";
 
 const AppRoutes = () => {
     return (
@@ -44,6 +45,7 @@ const AppRoutes = () => {
                 <Route path="/admin/users" element={<Users />} />
                 <Route path="/admin/couponSells" element={<CouponSells />} />
                 <Route path="/admin/others" element={<Others />} />
+                <Route path="/admin/quick_links" element={<ManageQuickLinks />} />
 
             </Route>
             {/* user Dashboard routes */}

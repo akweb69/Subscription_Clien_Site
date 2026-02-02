@@ -18,7 +18,7 @@ import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
 export default function SignIn() {
-    const { loginWithEmail } = useContext(AppContext);
+    const { loginWithEmail, loginWithGoogle } = useContext(AppContext);
     const navigate = useNavigate();
 
     const [showPassword, setShowPassword] = useState(false);
@@ -64,6 +64,33 @@ export default function SignIn() {
             setIsLoading(false);
         }
     };
+    const handleloginWithGoogle = async (e) => {
+        e.preventDefault();
+        setIsLoading(true);
+        const result = await loginWithGoogle();
+        // send user data to db----->
+        console.log("dsdsd----->", result)
+        // check if user already exist--->
+
+        if (result.success) {
+            const email = await result.user.email;
+            const name = await result.user.displayName;
+            const password = await result.user.uid;
+
+            const userFind = await axios.get(`${base_url}/users/${email}`);
+            if (!userFind.data) {
+                await axios.post(`${base_url}/users`, {
+                    email,
+                    name,
+                    password,
+                });
+            }
+            navigate("/plans");
+        }
+        setIsLoading(false);
+
+
+    }
 
     return (
         <AuthLayout
@@ -163,6 +190,17 @@ export default function SignIn() {
                     )}
                 </Button>
 
+                {/* continue with google btn---> */}
+                <Button
+                    variant='ghost'
+                    className="w-full bg-white border border-slate-200 hover:border-slate-300 text-slate-900 py-6 rounded-xl shadow-lg shadow-slate-200 transition-all active:scale-[0.98] group cursor-pointer"
+                    onClick={handleloginWithGoogle}
+                >
+                    <div className="flex items-center justify-center gap-2 font-bold text-lg">
+                        Continue with Google
+                        <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                </Button>
                 {/* Sign up */}
                 <p className="text-center text-sm text-slate-500 pt-4">
                     New to the platform?{' '}

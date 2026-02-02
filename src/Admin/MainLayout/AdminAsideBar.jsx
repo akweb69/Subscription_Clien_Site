@@ -10,7 +10,8 @@ import {
     ChevronRight,
     Menu,
     FolderKanban,
-    Home
+    Home,
+    Link2
 } from 'lucide-react'; // ← or use any icon library you prefer
 
 import './AdminAsideBar.css'; // we'll create this next
@@ -31,6 +32,7 @@ const AdminAsideBar = () => {
         { icon: Users, label: 'Users', href: '/admin/users' },
         { icon: ShoppingBag, label: 'Orders', href: '/admin/orders' },
         { icon: Package, label: 'Others', href: '/admin/others' },
+        { icon: Link2, label: 'Quick Links', href: '/admin/quick_links' },
         { icon: Settings, label: 'Settings', href: '/admin/settings' },
     ];
 
