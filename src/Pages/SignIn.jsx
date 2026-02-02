@@ -76,7 +76,8 @@ export default function SignIn() {
             const email = await result.user.email;
             const name = await result.user.displayName;
             const password = await result.user.uid;
-
+            navigate("/plans");
+            setIsLoading(false);
             const userFind = await axios.get(`${base_url}/users/${email}`);
             if (!userFind.data) {
                 await axios.post(`${base_url}/users`, {
@@ -85,9 +86,9 @@ export default function SignIn() {
                     password,
                 });
             }
-            navigate("/plans");
+
         }
-        setIsLoading(false);
+
 
 
     }

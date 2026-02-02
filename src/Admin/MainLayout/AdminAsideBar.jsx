@@ -11,7 +11,8 @@ import {
     Menu,
     FolderKanban,
     Home,
-    Link2
+    Link2,
+    Group
 } from 'lucide-react'; // ← or use any icon library you prefer
 
 import './AdminAsideBar.css'; // we'll create this next
@@ -27,13 +28,15 @@ const AdminAsideBar = () => {
 
     const menuItems = [
         { icon: LayoutDashboard, label: 'Dashboard', href: '/admin' },
-        { icon: Home, label: 'HomePage', href: '/' },
+
         { icon: FolderKanban, label: 'Management', href: '/admin/management' },
-        { icon: Users, label: 'Users', href: '/admin/users' },
         { icon: ShoppingBag, label: 'Orders', href: '/admin/orders' },
+        { icon: Users, label: 'Users', href: '/admin/users' },
+        { icon: Group, label: 'Admins', href: '/admin/manage_admins' },
         { icon: Package, label: 'Others', href: '/admin/others' },
         // { icon: Link2, label: 'Quick Links', href: '/admin/quick_links' },
         { icon: Settings, label: 'Settings', href: '/admin/settings' },
+        { icon: Home, label: 'HomePage', href: '/' },
     ];
 
     const toggleSidebar = () => setIsCollapsed(!isCollapsed);

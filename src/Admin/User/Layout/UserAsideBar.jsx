@@ -15,13 +15,14 @@ const UserAsideBar = () => {
     const [isMobileOpen, setIsMobileOpen] = useState(false);
 
     const menuItems = [
-        { icon: Home, label: 'Home Page', href: '/' },
-        { icon: Stamp, label: 'Visit Plans', href: '/plans' },
+
         { icon: LayoutDashboard, label: 'Dashboard', href: '/dashboard' },
         { icon: User, label: 'Profile', href: '/dashboard/profile' },
         // { icon: CreditCard, label: 'Payments', href: '/dashboard/payments' },
         { icon: History, label: 'Order History', href: '/dashboard/order_history' },
 
+        { icon: Stamp, label: 'Visit Plans', href: '/plans' },
+        { icon: Home, label: 'Home', href: '/' },
         // { icon: Link2, label: 'Quick Links', href: '/dashboard/settings' },
     ];
 

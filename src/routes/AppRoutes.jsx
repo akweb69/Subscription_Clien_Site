@@ -22,6 +22,10 @@ import CouponSells from "@/Admin/Pages/CouponSells";
 import Others from "@/Admin/Pages/Others";
 import OrderHistory from "@/Pages/OrderHistory";
 import ManageQuickLinks from "@/Admin/User/Pages/ManageQuickLinks";
+import ProtectedRoute from "./ProtectedRoute";
+import AdminSignin from "./AdminSignin";
+import AdminProtectedRoute from "./AdminProtectedRoute";
+import ManageAdmin from "@/Admin/Pages/ManageAdmin";
 
 const AppRoutes = () => {
     return (
@@ -34,27 +38,33 @@ const AppRoutes = () => {
                 <Route path="/plans" element={<Plans />} />
                 <Route path="/checkout/:planId" element={<CheckOut />} />
                 <Route path="/order-success" element={<OrderSuccess />} />
+                <Route path="/admin_signin" element={<AdminSignin />} />
             </Route>
 
             {/* admin routes */}
-            <Route element={<Layout />}>
-                <Route path="/admin" element={<AdminDash />} />
-                <Route path="/admin/management" element={<ManagementAll />} />
-                <Route path="/admin/orders" element={<OrdersManagement />} />
-                <Route path="/admin/settings" element={<Settings />} />
-                <Route path="/admin/users" element={<Users />} />
-                <Route path="/admin/couponSells" element={<CouponSells />} />
-                <Route path="/admin/others" element={<Others />} />
-                <Route path="/admin/quick_links" element={<ManageQuickLinks />} />
-
+            <Route element={<AdminProtectedRoute />}>
+                <Route element={<Layout />}>
+                    <Route path="/admin" element={<AdminDash />} />
+                    <Route path="/admin/management" element={<ManagementAll />} />
+                    <Route path="/admin/orders" element={<OrdersManagement />} />
+                    <Route path="/admin/settings" element={<Settings />} />
+                    <Route path="/admin/users" element={<Users />} />
+                    <Route path="/admin/couponSells" element={<CouponSells />} />
+                    <Route path="/admin/others" element={<Others />} />
+                    <Route path="/admin/quick_links" element={<ManageQuickLinks />} />
+                    <Route path="/admin/manage_admins" element={<ManageAdmin />} />
+                </Route>
             </Route>
             {/* user Dashboard routes */}
-            <Route element={<UserLayout />}>
-                <Route path="/dashboard" element={<UserDash />} />
-                <Route path="/dashboard/profile" element={<Profile />} />
-                <Route path="/dashboard/order_history" element={<OrderHistory />} />
-                <Route path="/dashboard/myplan_details/:id" element={<PlanDetails />} />
 
+
+            <Route element={<ProtectedRoute />}>
+                <Route element={<UserLayout />}>
+                    <Route path="/dashboard" element={<UserDash />} />
+                    <Route path="/dashboard/profile" element={<Profile />} />
+                    <Route path="/dashboard/order_history" element={<OrderHistory />} />
+                    <Route path="/dashboard/myplan_details/:id" element={<PlanDetails />} />
+                </Route>
             </Route>
 
             <Route path="*" element={<NotFound />} />

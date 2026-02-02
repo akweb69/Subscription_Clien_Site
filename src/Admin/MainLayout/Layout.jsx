@@ -36,7 +36,7 @@ const AdminLayout = () => {
                         <div className="flex h-16 items-center justify-between">
                             {/* Search */}
                             <div className="hidden md:block flex-1 max-w-xl">
-                                <div className="relative">
+                                {/* <div className="relative">
                                     <Search
                                         size={18}
                                         className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
@@ -53,7 +53,7 @@ const AdminLayout = () => {
                                     <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-400">
                                         Ctrl + K
                                     </span>
-                                </div>
+                                </div> */}
                             </div>
 
                             {/* Right */}
@@ -63,8 +63,8 @@ const AdminLayout = () => {
                                     aria-label="Notifications"
                                     className="relative p-2 rounded-lg hover:bg-gray-100"
                                 >
-                                    <Bell size={20} />
-                                    <span className="absolute top-2 right-2 h-2 w-2 bg-red-500 rounded-full" />
+                                    {/* <Bell size={20} /> */}
+                                    <span className="absolute top-1 right-2 h-3 w-3 bg-green-500 animate-ping rounded-full" />
                                 </button>
 
                                 {/* User Menu */}
@@ -78,12 +78,20 @@ const AdminLayout = () => {
                                             focus:ring-2 focus:ring-emerald-500
                                         "
                                     >
-                                        <img
-                                            src={user?.photoURL || 'https://i.pravatar.cc/100'}
-                                            alt="avatar"
-                                            referrerPolicy='no-referrer'
-                                            className="h-9 w-9 rounded-full border object-cover"
-                                        />
+                                        {
+                                            user?.photoURL ?
+                                                <img
+                                                    src={user?.photoURL}
+                                                    alt="TK"
+                                                    referrerPolicy='no-referrer'
+                                                    className="h-9 w-9 rounded-full border object-cover"
+                                                />
+                                                :
+                                                <div className="h-10 w-10 rounded-full bg-gray-200 flex justify-center items-center">
+                                                    {user?.displayName?.charAt(0).toUpperCase()}
+                                                </div>
+                                        }
+
 
                                         <div className="hidden md:block text-left">
                                             <p className="text-sm font-medium">{user?.name}</p>
