@@ -210,7 +210,7 @@ const ManageCoupons = () => {
                                                             className="border border-gray-300 rounded px-2 py-1 w-20"
                                                         />
                                                     ) : (
-                                                        `${coupon.discount}%`
+                                                        `${coupon.discount}tk`
                                                     )}
                                                 </td>
 
@@ -275,14 +275,14 @@ const ManageCoupons = () => {
                     <motion.div
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
-                        className="bg-white rounded-xl shadow-lg p-6 flex flex-col"
+                        className="bg-white rounded-xl shadow-lg flex flex-col"
                     >
                         <h2 className="text-xl font-semibold text-gray-800 mb-6">
                             Coupon Preview
                         </h2>
 
                         {selectedCoupon ? (
-                            <div className="flex-1 flex items-center justify-center bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 rounded-xl p-8 border-2 border-dashed border-indigo-200">
+                            <div className="flex-1 flex items-center justify-center bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 rounded-xl lg:p-8 border-2 border-dashed border-indigo-200">
                                 <div className="w-full max-w-sm bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200 transform hover:scale-105 transition-transform">
                                     <div className="bg-gradient-to-r from-indigo-600 to-purple-600 px-8 py-6 text-white">
                                         <h3 className="text-2xl font-bold text-center">
