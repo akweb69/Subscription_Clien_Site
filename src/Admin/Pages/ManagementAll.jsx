@@ -23,13 +23,15 @@ import CradentialVideo from '../Component/CradentialVideo';
 import CockeisVideo from '../Component/CockeisVideo';
 import ManageCredentialVideo from '../Component/ManageCredantialVideo';
 import ManageCookiesVideo from '../Component/ManageCockiesVideo';
+import AddCockies from '../Component/AddCockies';
+import ManageCockies from '../Component/ManageCockies';
 
 
 
 const ManagementAll = () => {
     const allTabs = [
         {
-            name: "Add Credentials ",
+            name: "Add Login Credentials ",
             icon: ListPlus,
             gradient: "from-violet-500 via-purple-500 to-fuchsia-500",
             bgGradient: "from-violet-50 to-purple-50",
@@ -37,9 +39,25 @@ const ManagementAll = () => {
             accentColor: "violet"
         },
         {
-            name: "Manage Credentials ",
+            name: "Manage Login Credentials ",
             icon: Settings,
             gradient: "from-blue-500 via-cyan-500 to-teal-500",
+            bgGradient: "from-blue-50 to-cyan-50",
+            shadow: "shadow-blue-200",
+            accentColor: "blue"
+        },
+        {
+            name: "Add Cockies ",
+            icon: ListPlus,
+            gradient: "from-green-500 via-emerald-500 to-rose-500",
+            bgGradient: "from-green-50 to-rose-50",
+            shadow: "shadow-green-200",
+            accentColor: "green"
+        },
+        {
+            name: "Manage Cockies ",
+            icon: Settings,
+            gradient: "from-rose-500 via-cyan-500 to-teal-500",
             bgGradient: "from-blue-50 to-cyan-50",
             shadow: "shadow-blue-200",
             accentColor: "blue"
@@ -308,7 +326,7 @@ const ManagementAll = () => {
                     variants={containerVariants}
                     initial="hidden"
                     animate="visible"
-                    className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 mb-8"
+                    className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-3  mb-8"
                 >
                     {allTabs.map((tab, index) => {
                         const isActive = activeTab === index;
@@ -331,7 +349,7 @@ const ManagementAll = () => {
                                 <div className={`relative h-full bg-gradient-to-br ${isActive
                                     ? tab.gradient
                                     : 'from-white to-slate-50'
-                                    } p-4 sm:p-5 transition-all duration-500 border-2 ${isActive
+                                    } p-2  transition-all duration-500 border-2 ${isActive
                                         ? 'border-white/40'
                                         : 'border-slate-200'
                                     } shadow-lg hover:shadow-2xl`}>
@@ -355,13 +373,13 @@ const ManagementAll = () => {
                                                 scale: [1, 1.1, 1.1, 1]
                                             } : {}}
                                             transition={{ duration: 0.5 }}
-                                            className={`relative w-12 h-12 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center ${isActive
+                                            className={`relative w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center ${isActive
                                                 ? 'bg-white/25 backdrop-blur-sm'
                                                 : `bg-gradient-to-br ${tab.gradient}`
                                                 } shadow-lg`}
                                         >
                                             <Icon
-                                                className={`w-6 h-6 sm:w-7 sm:h-7 ${isActive ? 'text-white' : 'text-white'
+                                                className={`w-4 h-4 sm:w-5 sm:h-5 ${isActive ? 'text-white' : 'text-white'
                                                     }`}
                                             />
 
@@ -378,21 +396,14 @@ const ManagementAll = () => {
                                         </motion.div>
 
                                         {/* Text */}
-                                        <p className={`text-xs sm:text-sm font-bold leading-tight transition-colors duration-300 ${isActive
+                                        <p className={`text-xs font-bold leading-tight transition-colors duration-300 ${isActive
                                             ? 'text-white drop-shadow-lg'
                                             : 'text-slate-700'
                                             }`}>
                                             {tab.name}
                                         </p>
 
-                                        {/* Hover Arrow */}
-                                        <motion.div
-                                            initial={{ opacity: 0, x: -10 }}
-                                            whileHover={{ opacity: 1, x: 0 }}
-                                            className={`${isActive ? 'text-white' : 'text-slate-400'}`}
-                                        >
-                                            <ChevronRight className="w-4 h-4" />
-                                        </motion.div>
+
                                     </div>
 
                                     {/* Decorative Corner */}
@@ -437,16 +448,18 @@ const ManagementAll = () => {
                             <div className="relative z-10">
                                 {activeTab === 0 && <AddNewPlatform />}
                                 {activeTab === 1 && <ManagePlatform />}
-                                {activeTab === 2 && <AddNewSubscription />}
-                                {activeTab === 3 && <ManageSubscription />}
-                                {activeTab === 4 && <ManageSubs_Category />}
-                                {activeTab === 5 && <EditCategory />}
-                                {activeTab === 6 && <AddNewCoupon />}
-                                {activeTab === 7 && <ManageCoupons />}
-                                {activeTab === 8 && <CradentialVideo />}
-                                {activeTab === 9 && <ManageCredentialVideo />}
-                                {activeTab === 10 && <CockeisVideo />}
-                                {activeTab === 11 && <ManageCookiesVideo />}
+                                {activeTab === 2 && <AddCockies />}
+                                {activeTab === 3 && <ManageCockies />}
+                                {activeTab === 4 && <AddNewSubscription />}
+                                {activeTab === 5 && <ManageSubscription />}
+                                {activeTab === 6 && <ManageSubs_Category />}
+                                {activeTab === 7 && <EditCategory />}
+                                {activeTab === 8 && <AddNewCoupon />}
+                                {activeTab === 9 && <ManageCoupons />}
+                                {activeTab === 10 && <CradentialVideo />}
+                                {activeTab === 11 && <ManageCredentialVideo />}
+                                {activeTab === 12 && <CockeisVideo />}
+                                {activeTab === 13 && <ManageCookiesVideo />}
                             </div>
 
                             {/* Decorative Background Pattern */}
