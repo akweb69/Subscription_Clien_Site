@@ -33,7 +33,7 @@ export default function AuthLayout({
                         <div className="bg-amber-500 p-2 rounded-lg">
                             <LayoutDashboard className="h-6 w-6 text-slate-900" />
                         </div>
-                        <span className="text-2xl font-black tracking-tighter uppercase">AsterDesk</span>
+                        <span className="text-2xl font-black tracking-tighter uppercase">MasterDesk</span>
                     </motion.div>
 
                     {/* Middle: Value Prop */}
@@ -83,7 +83,7 @@ export default function AuthLayout({
 
                     {/* Bottom: Footer Info */}
                     <div className="text-slate-500 text-xs tracking-wide">
-                        &copy; 2026 ASTERDESK TECHNOLOGIES INC.
+                        &copy; 2026 MASTERDESK TECHNOLOGIES INC.
                     </div>
                 </div>
             </div>
@@ -99,7 +99,7 @@ export default function AuthLayout({
                     {/* Mobile Logo Only */}
                     <div className="lg:hidden flex items-center justify-center gap-2 mb-12">
                         <LayoutDashboard className="h-8 w-8 text-amber-500" />
-                        <span className="text-2xl font-black tracking-tighter uppercase text-slate-900">AsterDesk</span>
+                        <span className="text-2xl font-black tracking-tighter uppercase text-slate-900">MasterDesk</span>
                     </div>
 
                     <div className="mb-10">

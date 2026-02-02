@@ -88,7 +88,7 @@ export default function SignUp() {
             const msg = err?.response?.data?.message || err.message;
 
             if (msg?.toLowerCase().includes('email') && msg?.toLowerCase().includes('already')) {
-                setServerError('This email is already registered with ASTERDESK.');
+                setServerError('This email is already registered with MASTERDESK.');
             } else {
                 setServerError(msg || 'Something went wrong. Please try again.');
             }
@@ -128,7 +128,7 @@ export default function SignUp() {
         <AuthLayout
             title={
                 <span className="flex items-center justify-center gap-2 tracking-tight">
-                    Join <span className="font-extrabold text-slate-900">ASTERDESK</span>
+                    Join <span className="font-extrabold text-slate-900">MASTERDESK</span>
                 </span>
             }
             subtitle="Your premium workspace for seamless digital management."
@@ -175,7 +175,7 @@ export default function SignUp() {
                             id="email"
                             name="email"
                             type="email"
-                            placeholder="name@asterdesk.com"
+                            placeholder="name@Masterdesk.com"
                             value={formData.email}
                             onChange={handleChange}
                             className="pl-10 bg-slate-50/50 border-slate-200 focus:ring-amber-500"
@@ -293,7 +293,7 @@ export default function SignUp() {
                 </Button>
 
                 <p className="text-center text-sm text-slate-500">
-                    Already an ASTER member?{' '}
+                    Already an MASTERDESK member?{' '}
                     <a href="/signin" className="font-bold text-amber-700 hover:text-amber-600 transition-colors">
                         Sign in here
                     </a>

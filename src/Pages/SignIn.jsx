@@ -96,7 +96,7 @@ export default function SignIn() {
     return (
         <AuthLayout
             title="Welcome back"
-            subtitle="Securely sign in to your AsterDesk dashboard"
+            subtitle="Securely sign in to your MasterDesk dashboard"
         >
             <form onSubmit={handleLogin} className="space-y-5">
                 {/* Email */}
