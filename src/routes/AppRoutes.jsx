@@ -27,6 +27,7 @@ import AdminSignin from "./AdminSignin";
 import AdminProtectedRoute from "./AdminProtectedRoute";
 import ManageAdmin from "@/Admin/Pages/ManageAdmin";
 import AddNotifications from "@/Admin/Component/AddNotifications";
+import QuickLinks from "@/Pages/QuickLinks";
 
 const AppRoutes = () => {
     return (
@@ -66,6 +67,7 @@ const AppRoutes = () => {
                     <Route path="/dashboard/profile" element={<Profile />} />
                     <Route path="/dashboard/order_history" element={<OrderHistory />} />
                     <Route path="/dashboard/myplan_details/:id" element={<PlanDetails />} />
+                    <Route path="/dashboard/quick_links" element={<QuickLinks />} />
                 </Route>
             </Route>
 

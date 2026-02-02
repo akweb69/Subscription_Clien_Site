@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Save, Loader2, Link as LinkIcon, MessageCircle, Send, Facebook } from 'lucide-react';
+import { Save, Loader2, Link as LinkIcon, MessageCircle, Send } from 'lucide-react';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 
@@ -13,10 +13,8 @@ const ManageQuickLinks = () => {
     const [saving, setSaving] = useState(false);
     const [whatsappLink, setWhatsappLink] = useState('');
     const [telegramLink, setTelegramLink] = useState('');
-    const [facebookLink, setFacebookLink] = useState('');
     const [originalData, setOriginalData] = useState({});
 
-    // Fetch current quick links on mount
     useEffect(() => {
         fetchQuickLinks();
     }, []);
@@ -26,19 +24,14 @@ const ManageQuickLinks = () => {
             setLoading(true);
             const res = await axios.get(`${base_url}/quick-links`);
 
-            // Assuming the backend returns the latest/single document
-            // Adjust field names if your document structure is different
             const data = res.data || {};
 
             setWhatsappLink(data.whatsapp || '');
             setTelegramLink(data.telegram || '');
-            setFacebookLink(data.facebook || '');
 
-            // Store original values to detect real changes
             setOriginalData({
                 whatsapp: data.whatsapp || '',
                 telegram: data.telegram || '',
-                facebook: data.facebook || '',
             });
         } catch (err) {
             console.error("Failed to load quick links:", err);
@@ -51,22 +44,20 @@ const ManageQuickLinks = () => {
     const hasChanges = () => {
         return (
             whatsappLink.trim() !== originalData.whatsapp ||
-            telegramLink.trim() !== originalData.telegram ||
-            facebookLink.trim() !== originalData.facebook
+            telegramLink.trim() !== originalData.telegram
         );
     };
 
     const handleSave = async () => {
-        // Optional: basic URL validation
         const links = {
             whatsapp: whatsappLink.trim(),
             telegram: telegramLink.trim(),
-            facebook: facebookLink.trim(),
+            // facebook is intentionally NOT sent anymore
         };
 
-        // You can add more strict validation if needed
-        if (links.whatsapp && !links.whatsapp.includes('whatsapp.com')) {
-            toast.error("WhatsApp link should contain 'whatsapp.com'");
+        // Optional light validation
+        if (links.whatsapp && !links.whatsapp.includes('whatsapp.com') && !links.whatsapp.includes('wa.me')) {
+            toast.error("WhatsApp link should contain 'wa.me' or 'whatsapp.com'");
             return;
         }
 
@@ -74,8 +65,6 @@ const ManageQuickLinks = () => {
         const toastId = toast.loading("Saving quick links...");
 
         try {
-            // If you want to always update the same document, use upsert or findOneAndUpdate
-            // Here we assume you're using a single document (or the backend handles it)
             const res = await axios.post(`${base_url}/quick-links`, links, {
                 headers: { 'Content-Type': 'application/json' }
             });
@@ -83,11 +72,9 @@ const ManageQuickLinks = () => {
             if (res.data?.acknowledged || res.status < 300) {
                 toast.success("Quick links updated!", { id: toastId });
 
-                // Update original data after successful save
                 setOriginalData({
                     whatsapp: links.whatsapp,
                     telegram: links.telegram,
-                    facebook: links.facebook,
                 });
             } else {
                 throw new Error("Save failed");
@@ -117,11 +104,12 @@ const ManageQuickLinks = () => {
             <div className="mb-8">
                 <h1 className="text-2xl font-bold text-gray-800">Manage Quick Links</h1>
                 <p className="text-gray-600 mt-1">
-                    Update WhatsApp, Telegram, and Facebook links shown to users
+                    Update WhatsApp and Telegram links shown to users
                 </p>
             </div>
 
             <div className="space-y-6">
+
                 {/* WhatsApp */}
                 <div className="space-y-2">
                     <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
@@ -151,24 +139,6 @@ const ManageQuickLinks = () => {
                             value={telegramLink}
                             onChange={(e) => setTelegramLink(e.target.value)}
                             placeholder="https://t.me/yourchannel or https://t.me/+..."
-                            className="pl-10"
-                            disabled={saving}
-                        />
-                        <LinkIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-                    </div>
-                </div>
-
-                {/* Facebook */}
-                <div className="space-y-2">
-                    <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
-                        <Facebook className="h-4 w-4 text-blue-600" />
-                        Facebook Page/Group Link
-                    </label>
-                    <div className="relative">
-                        <Input
-                            value={facebookLink}
-                            onChange={(e) => setFacebookLink(e.target.value)}
-                            placeholder="https://www.facebook.com/yourpage"
                             className="pl-10"
                             disabled={saving}
                         />

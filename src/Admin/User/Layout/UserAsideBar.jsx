@@ -20,10 +20,10 @@ const UserAsideBar = () => {
         { icon: User, label: 'Profile', href: '/dashboard/profile' },
         // { icon: CreditCard, label: 'Payments', href: '/dashboard/payments' },
         { icon: History, label: 'Order History', href: '/dashboard/order_history' },
-
+        { icon: Link2, label: 'Quick Links', href: '/dashboard/quick_links' },
         { icon: Stamp, label: 'Visit Plans', href: '/plans' },
         { icon: Home, label: 'Home', href: '/' },
-        // { icon: Link2, label: 'Quick Links', href: '/dashboard/settings' },
+
     ];
 
     return (
