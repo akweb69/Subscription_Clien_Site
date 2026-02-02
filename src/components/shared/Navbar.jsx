@@ -177,7 +177,7 @@ export default function Navbar() {
                                 exit={{ rotate: 90, opacity: 0 }}
                                 transition={{ duration: 0.2 }}
                             >
-                                {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                                {isOpen ? <X className="h-10 w-10" /> : <Menu className="h-10 w-10" />}
                             </motion.div>
                         </AnimatePresence>
                     </Button>
