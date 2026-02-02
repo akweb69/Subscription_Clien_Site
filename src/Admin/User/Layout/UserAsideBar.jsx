@@ -22,7 +22,7 @@ const UserAsideBar = () => {
         // { icon: CreditCard, label: 'Payments', href: '/dashboard/payments' },
         { icon: History, label: 'Order History', href: '/dashboard/order_history' },
 
-        { icon: Link2, label: 'Quick Links', href: '/dashboard/settings' },
+        // { icon: Link2, label: 'Quick Links', href: '/dashboard/settings' },
     ];
 
     return (

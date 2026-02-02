@@ -70,6 +70,7 @@ const Profile = () => {
                             <img
                                 src={user.photoURL}
                                 alt="Profile"
+                                referrerPolicy='no-referrer'
                                 className="h-24 w-24 rounded-full object-cover border-4 border-white/20"
                             />
                         ) : (

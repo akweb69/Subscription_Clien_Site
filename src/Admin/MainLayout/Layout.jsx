@@ -79,8 +79,9 @@ const AdminLayout = () => {
                                         "
                                     >
                                         <img
-                                            src={user?.avatar || 'https://i.pravatar.cc/100'}
+                                            src={user?.photoURL || 'https://i.pravatar.cc/100'}
                                             alt="avatar"
+                                            referrerPolicy='no-referrer'
                                             className="h-9 w-9 rounded-full border object-cover"
                                         />
 
