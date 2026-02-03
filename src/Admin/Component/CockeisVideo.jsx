@@ -63,11 +63,11 @@ const CookiesVideo = () => {
     };
 
     return (
-        <div className="w-full py-6 md:py-10 px-4 md:px-8">
+        <div className="w-full py-6 md:py-10  md:px-8">
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="max-w-5xl mx-auto bg-white rounded-2xl shadow-xl p-6 md:p-8 lg:p-10"
+                className="max-w-5xl mx-auto bg-white rounded-2xl shadow-xl p-2 md:p-8 lg:p-10"
             >
                 {/* Header */}
                 <div className="mb-8 text-center md:text-left">
