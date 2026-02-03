@@ -228,7 +228,7 @@ const Settings = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 py-8 px-4 sm:px-6 lg:px-8 rounded-lg">
+        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 py-8 w-full sm:px-6 lg:px-8 rounded-lg">
             <Toaster position="top-right" />
 
             <motion.div
@@ -263,7 +263,7 @@ const Settings = () => {
                     variants={itemVariants}
                     className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl shadow-indigo-100/50 border border-white/60 overflow-hidden"
                 >
-                    <div className="p-6 sm:p-8 lg:p-10">
+                    <div className="p-3 sm:p-8 lg:p-10">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
                             {formFields.map((field, index) => {
                                 const Icon = field.icon;
