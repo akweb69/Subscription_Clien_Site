@@ -121,7 +121,7 @@ const ManagePlatform = () => {
         <motion.div
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="w-full min-h-[80vh] p-4 sm:p-6 lg:p-8 bg-gradient-to-br from-emerald-50/80 via-teal-50/60 to-emerald-50/80 rounded-2xl border border-emerald-100/60 shadow-xl backdrop-blur-[2px]"
+            className="w-full min-h-[80vh]  sm:p-6 lg:p-8 bg-gradient-to-br from-emerald-50/80 via-teal-50/60 to-emerald-50/80 rounded-2xl border border-emerald-100/60 shadow-xl backdrop-blur-[2px]"
         >
             <Toaster position="top-center" richColors toastOptions={{ duration: 5000 }} />
 
@@ -162,7 +162,7 @@ const ManagePlatform = () => {
                                     whileHover={{ scale: 1.01 }}
                                     className="bg-white/80 backdrop-blur-sm rounded-xl border border-emerald-100/70 shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden"
                                 >
-                                    <div className="p-5 sm:p-6">
+                                    <div className="md:p-5 p-3 sm:p-6">
                                         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5">
                                             <h2 className="text-lg font-semibold text-emerald-800 tracking-tight">
                                                 {p.platformName}

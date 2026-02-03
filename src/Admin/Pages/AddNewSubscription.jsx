@@ -145,7 +145,7 @@ const AddNewSubscription = () => {
     };
 
     return (
-        <div className="min-h-screen bg-green-50/70 rounded-xl p-4 sm:p-6">
+        <div className="min-h-screen bg-green-50/70 rounded-xl md:p-4 sm:p-6">
             {/* Header */}
             <div className="mb-6">
                 <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
@@ -158,7 +158,7 @@ const AddNewSubscription = () => {
 
             {/* Main Card */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                <form onSubmit={handleSubmit} className="p-6 sm:p-8">
+                <form onSubmit={handleSubmit} className="p-2 sm:p-8">
                     {/* Error Message */}
                     {error && (
                         <motion.div

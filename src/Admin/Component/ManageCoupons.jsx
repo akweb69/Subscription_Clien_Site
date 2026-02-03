@@ -129,7 +129,7 @@ const ManageCoupons = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 py-10 px-4">
+        <div className="min-h-screen bg-gray-50 py-10 md:px-4">
             <div className="max-w-7xl mx-auto">
                 <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center">
                     Manage Coupons
@@ -142,7 +142,7 @@ const ManageCoupons = () => {
                         animate={{ opacity: 1, x: 0 }}
                         className="bg-white rounded-xl shadow-lg overflow-hidden"
                     >
-                        <div className="p-6 border-b">
+                        <div className="md:p-6 border-b">
                             <h2 className="text-xl font-semibold text-gray-800">
                                 All Coupons
                             </h2>

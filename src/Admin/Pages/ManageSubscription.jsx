@@ -200,7 +200,7 @@ const ManageSubscription = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50/50 py-8 px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-gray-50/50 py-8 md:px-4 sm:px-6 lg:px-8">
             <div className="max-w-7xl mx-auto">
                 <div className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
@@ -244,7 +244,7 @@ const ManageSubscription = () => {
                   `}
                                 >
                                     {/* Header */}
-                                    <div className="px-5 py-4 border-b bg-gray-50/80 flex items-center justify-between gap-3">
+                                    <div className="md:px-5 py-4 border-b bg-gray-50/80 flex items-center justify-between gap-3">
                                         <div className="flex items-center gap-3 min-w-0">
                                             {sub.isMostPopular && !isEditing && (
                                                 <div className="flex items-center gap-1.5 bg-amber-100 text-amber-800 text-xs font-medium px-2.5 py-1 rounded-full shrink-0">

@@ -246,7 +246,7 @@ const ManagementAll = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 py-6 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 py-6  sm:px-6 lg:px-8 relative overflow-hidden">
             {/* Animated Background Elements */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
                 <motion.div
@@ -326,7 +326,7 @@ const ManagementAll = () => {
                     variants={containerVariants}
                     initial="hidden"
                     animate="visible"
-                    className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3  mb-8"
+                    className="grid grid-cols-2 sm:grid-cols-3 p-3 lg:grid-cols-6 gap-3  mb-8"
                 >
                     {allTabs.map((tab, index) => {
                         const isActive = activeTab === index;
@@ -440,7 +440,7 @@ const ManagementAll = () => {
                         className="relative"
                     >
                         {/* Content Container with Glass Effect */}
-                        <div className="bg-white/60 backdrop-blur-2xl rounded-3xl shadow-2xl border border-white/60 p-4 sm:p-6 lg:p-8 overflow-hidden">
+                        <div className="bg-white/60 backdrop-blur-2xl rounded-3xl shadow-2xl border border-white/60 p-3 sm:p-6 lg:p-8 overflow-hidden">
                             {/* Decorative Header Bar */}
                             <div className={`h-2 rounded-full bg-gradient-to-r ${allTabs[activeTab].gradient} mb-6`} />
 

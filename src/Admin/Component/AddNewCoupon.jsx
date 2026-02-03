@@ -61,7 +61,7 @@ const AddNewCoupon = () => {
     const previewSub = selectedSubscription || 'Premium Monthly';
 
     return (
-        <div className="min-h-screen bg-gray-50 py-10 px-4">
+        <div className="min-h-screen bg-gray-50 py-10 md:px-4">
             <div className="max-w-6xl mx-auto">
                 <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center">
                     Create New Coupon
@@ -72,7 +72,7 @@ const AddNewCoupon = () => {
                     <motion.div
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
-                        className="bg-white p-7 rounded-xl shadow-lg"
+                        className="bg-white md:p-7 rounded-xl shadow-lg"
                     >
                         <form onSubmit={handleSubmit} className="space-y-6">
                             {/* Subscription */}

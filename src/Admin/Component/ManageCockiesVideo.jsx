@@ -124,11 +124,11 @@ const ManageCookiesVideo = () => {
     }
 
     return (
-        <div className="w-full py-8 px-4 md:px-8">
+        <div className="w-full py-8  md:px-8">
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="max-w-6xl mx-auto bg-white rounded-2xl shadow-xl p-6 md:p-8 lg:p-10"
+                className="max-w-6xl mx-auto bg-white rounded-2xl shadow-xl p-2 md:p-8 lg:p-10"
             >
                 <div className="mb-8">
                     <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
@@ -210,7 +210,7 @@ const ManageCookiesVideo = () => {
                                     </div>
 
                                     {/* Content */}
-                                    <div className="p-5 md:p-6">
+                                    <div className=" md:p-6">
                                         {isEditing ? (
                                             <div className="space-y-6">
                                                 <div>
