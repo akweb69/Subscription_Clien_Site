@@ -17,11 +17,11 @@ import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 
 const StatCard = ({ icon: Icon, title, value, color }) => (
-    <div className="bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow transition-shadow duration-200">
+    <div className="bg-white p-2 sm:p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow transition-shadow duration-200">
         <div className="flex items-center justify-between">
             <div>
                 <p className="text-sm text-gray-500 font-medium">{title}</p>
-                <p className="text-xl sm:text-2xl font-bold mt-1 text-gray-800">{value}</p>
+                <p className="text-sm sm:text-2xl font-bold mt-1 text-gray-800">{value}</p>
             </div>
             <div className={`p-3 rounded-lg ${color}`}>
                 <Icon size={24} className="text-white" />
@@ -60,13 +60,13 @@ const FlipCard = ({ value, label, urgency = 'normal' }) => {
             <div className="relative">
                 <div
                     className={`
-            w-16 h-20 sm:w-20 sm:h-24 rounded-xl bg-gradient-to-br ${s.bg}
+            w-10 h-16 sm:w-20 sm:h-24 rounded-xl bg-gradient-to-br ${s.bg}
             shadow-xl overflow-hidden transform-gpu
             ${isFlipping ? 'animate-flip' : ''}
           `}
                     style={{ perspective: '1000px' }}
                 >
-                    <div className="absolute inset-0 flex items-center justify-center text-3xl sm:text-4xl font-extrabold text-white/95">
+                    <div className="absolute inset-0 flex items-center justify-center text-xl sm:text-4xl font-extrabold text-white/95">
                         {displayValue}
                     </div>
                     <div className="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent pointer-events-none" />
@@ -258,14 +258,14 @@ export default function UserDashboard() {
 
             {/* Active Subscriptions */}
             <section className="bg-white rounded-2xl shadow border border-gray-100 overflow-hidden">
-                <div className="px-6 py-5 border-b bg-gradient-to-r from-emerald-50 to-teal-50">
+                <div className="md:px-6  md:py-5 border-b bg-gradient-to-r from-emerald-50 to-teal-50">
                     <h2 className="text-xl font-semibold text-gray-800 flex items-center gap-3">
                         <div className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse" />
                         Active Plans
                     </h2>
                 </div>
 
-                <div className="p-6">
+                <div className="md:p-6">
                     {activeSubs.length === 0 ? (
                         <div className="py-20 text-center">
                             <Package size={64} className="mx-auto text-gray-300 mb-6" strokeWidth={1.4} />
