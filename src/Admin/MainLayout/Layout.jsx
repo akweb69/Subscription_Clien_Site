@@ -33,7 +33,7 @@ const AdminLayout = () => {
                 {/* Top Navbar */}
                 <header className="sticky top-0 z-30 bg-white border-b">
                     <div className="px-4 sm:px-6 lg:px-8">
-                        <div className="flex h-16 items-center justify-between">
+                        <div className="flex h-16 items-center justify-end">
                             {/* Search */}
                             <div className="hidden md:block flex-1 max-w-xl">
                                 {/* <div className="relative">
@@ -145,7 +145,7 @@ const AdminLayout = () => {
                 </header>
 
                 {/* Content */}
-                <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+                <main className="flex-1 overflow-y-auto  sm:p-6 lg:p-8">
                     <div className="mx-auto max-w-screen-2xl bg-white border rounded-xl shadow-sm">
                         <div className=" sm:p-6 lg:p-8">
                             <Outlet />

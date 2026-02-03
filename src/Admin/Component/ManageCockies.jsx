@@ -85,7 +85,7 @@ const ManageCockies = () => {
                         No data found
                     </div>
                 ) : (
-                    <table className="w-full text-sm">
+                    <table className="w-full text-sm overflow-auto">
                         <thead className="bg-gray-100">
                             <tr>
                                 <th className="p-3 text-left">Platform</th>

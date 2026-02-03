@@ -75,7 +75,7 @@ const AddNewPlatform = () => {
             initial={{ opacity: 0, y: 80 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
-            className="w-full rounded-xl bg-emerald-50  md:p-6 shadow-sm"
+            className="w-full rounded-xl bg-emerald-50 p-2  md:p-6 shadow-sm"
         >
             {/* Header */}
             <div className="mb-5">

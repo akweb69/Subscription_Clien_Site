@@ -276,7 +276,7 @@ const ManagementAll = () => {
                     animate="visible"
                     className="mb-8 sm:mb-12"
                 >
-                    <div className="flex items-center gap-4 mb-4">
+                    <div className="flex items-center gap-4 mb-4 p-2">
                         <motion.div
                             whileHover={{ rotate: 360, scale: 1.1 }}
                             transition={{ duration: 0.6 }}
@@ -292,7 +292,7 @@ const ManagementAll = () => {
                             />
                         </motion.div>
 
-                        <div className="flex-1">
+                        <div className="flex-1 ">
                             <motion.div
                                 initial={{ opacity: 0, x: -20 }}
                                 animate={{ opacity: 1, x: 0 }}
@@ -326,7 +326,7 @@ const ManagementAll = () => {
                     variants={containerVariants}
                     initial="hidden"
                     animate="visible"
-                    className="grid grid-cols-2 sm:grid-cols-3 p-3 lg:grid-cols-6 gap-3  mb-8"
+                    className="grid grid-cols-3 sm:grid-cols-4 p-3 lg:grid-cols-6 gap-3  mb-8"
                 >
                     {allTabs.map((tab, index) => {
                         const isActive = activeTab === index;

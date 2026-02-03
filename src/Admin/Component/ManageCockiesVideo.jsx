@@ -210,7 +210,7 @@ const ManageCookiesVideo = () => {
                                     </div>
 
                                     {/* Content */}
-                                    <div className=" md:p-6">
+                                    <div className=" md:p-6 p-3">
                                         {isEditing ? (
                                             <div className="space-y-6">
                                                 <div>
