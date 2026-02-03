@@ -85,55 +85,177 @@ const ManageCockies = () => {
                         No data found
                     </div>
                 ) : (
-                    <table className="w-full text-sm overflow-auto">
-                        <thead className="bg-gray-100">
-                            <tr>
-                                <th className="p-3 text-left">Platform</th>
-                                <th className="p-3 text-left">Slots</th>
-                                <th className="p-3 text-left">Cookies</th>
-                                <th className="p-3 text-right">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {data.map((item) => (
-                                <motion.tr
-                                    key={item._id}
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    className="border-t hover:bg-gray-50"
-                                >
-                                    {/* Platform */}
-                                    <td className="p-3 font-medium">
-                                        {item.p_name}
-                                    </td>
+                    <div className="">
+                        <table className="hidden md:table w-full text-sm">
+                            <thead className="bg-gray-100">
+                                <tr>
+                                    <th className="p-3 text-left">Platform</th>
+                                    <th className="p-3 text-left">Slots</th>
+                                    <th className="p-3 text-left">Cookies</th>
+                                    <th className="p-3 text-right">Actions</th>
+                                </tr>
+                            </thead>
 
-                                    {/* Slots */}
-                                    <td className="p-3">
+                            <tbody>
+                                {data.map((item) => (
+                                    <motion.tr
+                                        key={item._id}
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        className="border-t hover:bg-gray-50"
+                                    >
+                                        <td className="p-3 font-medium">{item.p_name}</td>
+
+                                        <td className="p-3">
+                                            {editId === item._id ? (
+                                                <input
+                                                    type="number"
+                                                    min={0}
+                                                    value={editData.p_slot}
+                                                    onChange={(e) =>
+                                                        setEditData({
+                                                            ...editData,
+                                                            p_slot: Number(e.target.value),
+                                                        })
+                                                    }
+                                                    className="border rounded px-2 py-1 w-20"
+                                                />
+                                            ) : (
+                                                item.p_slot
+                                            )}
+                                        </td>
+
+                                        <td className="p-3 max-w-xs">
+                                            {editId === item._id ? (
+                                                <textarea
+                                                    rows={5}
+                                                    value={editData.p_value}
+                                                    onChange={(e) =>
+                                                        setEditData({
+                                                            ...editData,
+                                                            p_value: e.target.value,
+                                                        })
+                                                    }
+                                                    className="w-full border rounded px-2 py-1 text-xs"
+                                                />
+                                            ) : (
+                                                <span className="line-clamp-2 text-gray-600">
+                                                    {item.p_value}
+                                                </span>
+                                            )}
+                                        </td>
+
+                                        <td className="p-3 text-right">
+                                            {editId === item._id ? (
+                                                <div className="flex justify-end gap-2">
+                                                    <button
+                                                        onClick={() => handleUpdate(item._id)}
+                                                        className="text-green-600"
+                                                    >
+                                                        <Save size={18} />
+                                                    </button>
+                                                    <button
+                                                        onClick={() => setEditId(null)}
+                                                        className="text-gray-500"
+                                                    >
+                                                        <X size={18} />
+                                                    </button>
+                                                </div>
+                                            ) : (
+                                                <div className="flex justify-end gap-2">
+                                                    <button
+                                                        onClick={() => handleEdit(item)}
+                                                        className="text-blue-600"
+                                                    >
+                                                        <Edit size={18} />
+                                                    </button>
+                                                    <button
+                                                        onClick={() => handleDelete(item._id)}
+                                                        className="text-red-500"
+                                                    >
+                                                        <Trash2 size={18} />
+                                                    </button>
+                                                </div>
+                                            )}
+                                        </td>
+                                    </motion.tr>
+                                ))}
+                            </tbody>
+                        </table>
+
+                        <div className="md:hidden space-y-3">
+                            {data.map((item) => (
+                                <motion.div
+                                    key={item._id}
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    className="border rounded-lg p-3 bg-white shadow-sm"
+                                >
+                                    <div className="flex justify-between items-start">
+                                        <div>
+                                            <p className="text-xs text-gray-500">Platform</p>
+                                            <p className="font-semibold">{item.p_name}</p>
+                                        </div>
+
+                                        <div className="flex gap-2">
+                                            {editId === item._id ? (
+                                                <>
+                                                    <button
+                                                        onClick={() => handleUpdate(item._id)}
+                                                        className="text-green-600"
+                                                    >
+                                                        <Save size={16} />
+                                                    </button>
+                                                    <button
+                                                        onClick={() => setEditId(null)}
+                                                        className="text-gray-500"
+                                                    >
+                                                        <X size={16} />
+                                                    </button>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <button
+                                                        onClick={() => handleEdit(item)}
+                                                        className="text-blue-600"
+                                                    >
+                                                        <Edit size={16} />
+                                                    </button>
+                                                    <button
+                                                        onClick={() => handleDelete(item._id)}
+                                                        className="text-red-500"
+                                                    >
+                                                        <Trash2 size={16} />
+                                                    </button>
+                                                </>
+                                            )}
+                                        </div>
+                                    </div>
+
+                                    <div className="mt-2">
+                                        <p className="text-xs text-gray-500">Slots</p>
                                         {editId === item._id ? (
                                             <input
                                                 type="number"
-                                                min={0}
                                                 value={editData.p_slot}
                                                 onChange={(e) =>
                                                     setEditData({
                                                         ...editData,
-                                                        p_slot: Number(
-                                                            e.target.value
-                                                        ),
+                                                        p_slot: Number(e.target.value),
                                                     })
                                                 }
-                                                className="border rounded px-2 py-1 w-20"
+                                                className="border rounded px-2 py-1 w-full"
                                             />
                                         ) : (
-                                            item.p_slot
+                                            <p>{item.p_slot}</p>
                                         )}
-                                    </td>
+                                    </div>
 
-                                    {/* Cookies */}
-                                    <td className="p-3 max-w-xs">
+                                    <div className="mt-2">
+                                        <p className="text-xs text-gray-500">Cookies</p>
                                         {editId === item._id ? (
                                             <textarea
-                                                rows={10}
+                                                rows={4}
                                                 value={editData.p_value}
                                                 onChange={(e) =>
                                                     setEditData({
@@ -141,61 +263,19 @@ const ManageCockies = () => {
                                                         p_value: e.target.value,
                                                     })
                                                 }
-                                                className="w-full border rounded px-2 py-1 text-xs"
+                                                className="border rounded px-2 py-1 w-full text-xs"
                                             />
                                         ) : (
-                                            <span className="line-clamp-2 text-gray-600">
+                                            <p className="text-xs text-gray-600 line-clamp-3">
                                                 {item.p_value}
-                                            </span>
+                                            </p>
                                         )}
-                                    </td>
-
-                                    {/* Actions */}
-                                    <td className="p-3 text-right">
-                                        {editId === item._id ? (
-                                            <div className="flex justify-end gap-2">
-                                                <button
-                                                    onClick={() =>
-                                                        handleUpdate(item._id)
-                                                    }
-                                                    className="text-green-600 hover:text-green-700"
-                                                >
-                                                    <Save size={18} />
-                                                </button>
-                                                <button
-                                                    onClick={() =>
-                                                        setEditId(null)
-                                                    }
-                                                    className="text-gray-500 hover:text-gray-600"
-                                                >
-                                                    <X size={18} />
-                                                </button>
-                                            </div>
-                                        ) : (
-                                            <div className="flex justify-end gap-2">
-                                                <button
-                                                    onClick={() =>
-                                                        handleEdit(item)
-                                                    }
-                                                    className="text-blue-600 hover:text-blue-700"
-                                                >
-                                                    <Edit size={18} />
-                                                </button>
-                                                <button
-                                                    onClick={() =>
-                                                        handleDelete(item._id)
-                                                    }
-                                                    className="text-red-500 hover:text-red-600"
-                                                >
-                                                    <Trash2 size={18} />
-                                                </button>
-                                            </div>
-                                        )}
-                                    </td>
-                                </motion.tr>
+                                    </div>
+                                </motion.div>
                             ))}
-                        </tbody>
-                    </table>
+                        </div>
+                    </div>
+
                 )}
             </div>
         </div>
