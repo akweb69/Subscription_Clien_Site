@@ -304,7 +304,7 @@ const QuickLinks = () => {
                                     variant="phone"
                                     icon={Phone}
                                     badge=" Chat WhatsApp"
-                                    label="WhatsApp Chat with Admin"
+                                    label="WhatsApp Support"
                                 />
                             )}
                             {links.whatsapp && (
@@ -314,7 +314,7 @@ const QuickLinks = () => {
                                     variant="whatsapp"
                                     icon={MessageCircle}
                                     badge="Chat via"
-                                    label="WhatsApp support group"
+                                    label="WhatsApp  group"
                                 />
                             )}
                             {links.telegram && (
@@ -324,7 +324,7 @@ const QuickLinks = () => {
                                     variant="telegram"
                                     icon={Send}
                                     badge="Message via"
-                                    label="Telegram support group"
+                                    label="Telegram Channel"
                                 />
                             )}
                         </AnimatePresence>

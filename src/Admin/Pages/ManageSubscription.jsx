@@ -15,7 +15,7 @@ import {
     AlertTriangle,
     Check,
     Tag,
-    AlertCircle
+    AlertCircle,
 } from 'lucide-react';
 import axios from 'axios';
 import useCategory from '../Hooks/useCategory';
@@ -25,6 +25,7 @@ const ManageSubscription = () => {
 
     const [subscriptions, setSubscriptions] = useState([]);
     const [platforms, setPlatforms] = useState([]);
+    const [cookiePlatforms, setCookiePlatforms] = useState([]);
 
     const [subsLoading, setSubsLoading] = useState(true);
     const [platformsLoading, setPlatformsLoading] = useState(true);
@@ -33,13 +34,13 @@ const ManageSubscription = () => {
     const [editForm, setEditForm] = useState({});
     const [deletingId, setDeletingId] = useState(null);
 
-    // Confirmation Modal State
+    // Confirmation Modal
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [confirmAction, setConfirmAction] = useState(null); // 'save' or 'delete'
     const [confirmId, setConfirmId] = useState(null);
     const [confirmMessage, setConfirmMessage] = useState('');
 
-    // Load subscriptions
+    // Fetch subscriptions
     const fetchSubscriptions = async () => {
         try {
             setSubsLoading(true);
@@ -53,15 +54,20 @@ const ManageSubscription = () => {
         }
     };
 
-    // Load platforms
+    // Fetch both regular + cookie platforms
     const fetchPlatforms = async () => {
         try {
             setPlatformsLoading(true);
-            const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/platform`);
-            setPlatforms(res.data || []);
+            const [platRes, cookieRes] = await Promise.all([
+                axios.get(`${import.meta.env.VITE_BASE_URL}/platform`),
+                axios.get(`${import.meta.env.VITE_BASE_URL}/add_cockies_platform`),
+            ]);
+
+            setPlatforms(platRes.data || []);
+            setCookiePlatforms(cookieRes.data || []);
         } catch (err) {
             console.error('Failed to load platforms:', err);
-            toast.error('Failed to load platforms');
+            toast.error('Failed to load platforms / cookie platforms');
         } finally {
             setPlatformsLoading(false);
         }
@@ -81,7 +87,8 @@ const ManageSubscription = () => {
             isMostPopular: !!sub.isMostPopular,
             subscriptionDescription: sub.subscriptionDescription || '',
             selectedPlan: sub.selectedPlan ? [...sub.selectedPlan] : [],
-            category: sub.category?._id || sub.category || ''
+            selectedCookiePlatforms: sub.selectedCookiePlatforms ? [...sub.selectedCookiePlatforms] : [],
+            category: sub.category?._id || sub.category || '',
         });
     };
 
@@ -94,13 +101,22 @@ const ManageSubscription = () => {
         setEditForm((prev) => {
             const current = prev.selectedPlan || [];
             if (current.includes(platformId)) {
-                return { ...prev, selectedPlan: current.filter(id => id !== platformId) };
+                return { ...prev, selectedPlan: current.filter((id) => id !== platformId) };
             }
             return { ...prev, selectedPlan: [...current, platformId] };
         });
     };
 
-    // Show confirmation modal
+    const toggleCookiePlatform = (cookieId) => {
+        setEditForm((prev) => {
+            const current = prev.selectedCookiePlatforms || [];
+            if (current.includes(cookieId)) {
+                return { ...prev, selectedCookiePlatforms: current.filter((id) => id !== cookieId) };
+            }
+            return { ...prev, selectedCookiePlatforms: [...current, cookieId] };
+        });
+    };
+
     const showConfirmation = (action, id, message) => {
         setConfirmAction(action);
         setConfirmId(id);
@@ -132,14 +148,12 @@ const ManageSubscription = () => {
                 price: Number(editForm.price),
                 isMostPopular: editForm.isMostPopular,
                 subscriptionDescription: editForm.subscriptionDescription.trim(),
-                selectedPlan: editForm.selectedPlan,
-                category: editForm.category || null
+                selectedPlan: editForm.selectedPlan || [],
+                selectedCookiePlatforms: editForm.selectedCookiePlatforms || [],
+                category: editForm.category || null,
             };
 
-            const res = await axios.patch(
-                `${import.meta.env.VITE_BASE_URL}/subscription/${id}`,
-                payload
-            );
+            const res = await axios.patch(`${import.meta.env.VITE_BASE_URL}/subscription/${id}`, payload);
 
             if (res.data?.modifiedCount === 1 || res.data?.acknowledged) {
                 toast.success('Subscription updated successfully');
@@ -175,13 +189,18 @@ const ManageSubscription = () => {
     const formatPrice = (price) =>
         Number(price).toLocaleString('en-IN', {
             minimumFractionDigits: 0,
-            maximumFractionDigits: 2
+            maximumFractionDigits: 2,
         });
 
     const getCategoryName = (catId) => {
         if (!catId) return '—';
-        const cat = categoryData.find(c => c._id === catId);
+        const cat = categoryData.find((c) => c._id === catId);
         return cat ? cat.name : 'Unknown';
+    };
+
+    const getPlatformName = (id, list = platforms) => {
+        const found = list.find((p) => p._id === id);
+        return found ? found.platformName || found.name || 'Unknown' : 'Unknown';
     };
 
     const isLoading = subsLoading || platformsLoading || categoryLoading;
@@ -192,7 +211,11 @@ const ManageSubscription = () => {
                 <div className="flex flex-col items-center gap-4">
                     <Loader2 className="h-12 w-12 animate-spin text-indigo-600" />
                     <p className="text-gray-600 font-medium">
-                        {subsLoading ? 'Loading plans...' : categoryLoading ? 'Loading categories...' : 'Loading platforms...'}
+                        {subsLoading
+                            ? 'Loading plans...'
+                            : platformsLoading
+                                ? 'Loading platforms...'
+                                : 'Loading categories...'}
                     </p>
                 </div>
             </div>
@@ -204,12 +227,8 @@ const ManageSubscription = () => {
             <div className="max-w-7xl mx-auto">
                 <div className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
-                        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
-                            Manage Subscription Plans
-                        </h1>
-                        <p className="mt-1.5 text-gray-600">
-                            Edit, update or remove existing subscription packages
-                        </p>
+                        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Manage Subscription Plans</h1>
+                        <p className="mt-1.5 text-gray-600">Edit, update or remove existing subscription packages</p>
                     </div>
                     <div className="text-sm text-gray-500 bg-white px-4 py-2 rounded-lg border shadow-sm">
                         Total plans: <strong className="text-gray-900">{subscriptions.length}</strong>
@@ -219,9 +238,7 @@ const ManageSubscription = () => {
                 {subscriptions.length === 0 ? (
                     <div className="bg-white rounded-xl shadow border p-12 text-center">
                         <AlertTriangle className="mx-auto h-14 w-14 text-amber-500 mb-5 opacity-80" />
-                        <h3 className="text-xl font-semibold text-gray-800 mb-3">
-                            No subscription plans found
-                        </h3>
+                        <h3 className="text-xl font-semibold text-gray-800 mb-3">No subscription plans found</h3>
                         <p className="text-gray-600 max-w-md mx-auto">
                             Create your first plan from the <strong>Add New Subscription</strong> section.
                         </p>
@@ -238,10 +255,8 @@ const ManageSubscription = () => {
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 0.4 }}
-                                    className={`
-                    bg-white rounded-xl shadow-sm border overflow-hidden
-                    ${isEditing ? 'border-indigo-500 ring-1 ring-indigo-200 shadow-md' : 'border-gray-200 hover:shadow-md'}
-                  `}
+                                    className={`bg-white rounded-xl shadow-sm border overflow-hidden ${isEditing ? 'border-indigo-500 ring-1 ring-indigo-200 shadow-md' : 'border-gray-200 hover:shadow-md'
+                                        }`}
                                 >
                                     {/* Header */}
                                     <div className="md:px-5 py-4 border-b bg-gray-50/80 flex items-center justify-between gap-3">
@@ -261,10 +276,10 @@ const ManageSubscription = () => {
                                             {isEditing ? (
                                                 <>
                                                     <button
-                                                        onClick={() => showConfirmation('save', sub._id, 'Are you sure you want to save changes to this subscription plan?')}
+                                                        onClick={() => showConfirmation('save', sub._id, 'Are you sure you want to save changes?')}
                                                         disabled={isDeleting}
                                                         className="p-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors"
-                                                        title="Save changes"
+                                                        title="Save"
                                                     >
                                                         <Save size={18} />
                                                     </button>
@@ -282,28 +297,29 @@ const ManageSubscription = () => {
                                                         onClick={() => handleEditStart(sub)}
                                                         disabled={isDeleting}
                                                         className="p-2 text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
-                                                        title="Edit plan"
+                                                        title="Edit"
                                                     >
                                                         <Edit size={18} />
                                                     </button>
                                                     <button
-                                                        onClick={() => showConfirmation('delete', sub._id, 'Are you sure you want to permanently delete this subscription plan? This action cannot be undone.')}
+                                                        onClick={() =>
+                                                            showConfirmation(
+                                                                'delete',
+                                                                sub._id,
+                                                                'Are you sure you want to permanently delete this plan? This cannot be undone.'
+                                                            )
+                                                        }
                                                         disabled={isDeleting}
                                                         className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                                                        title="Delete plan"
+                                                        title="Delete"
                                                     >
-                                                        {isDeleting ? (
-                                                            <Loader2 size={18} className="animate-spin" />
-                                                        ) : (
-                                                            <Trash2 size={18} />
-                                                        )}
+                                                        {isDeleting ? <Loader2 size={18} className="animate-spin" /> : <Trash2 size={18} />}
                                                     </button>
                                                 </>
                                             )}
                                         </div>
                                     </div>
 
-                                    {/* Rest of card content remains the same */}
                                     <div className="p-5 space-y-5 text-sm">
                                         <div className="grid grid-cols-2 gap-5">
                                             <div className="space-y-1">
@@ -321,9 +337,7 @@ const ManageSubscription = () => {
                                                         className="w-full border border-gray-300 rounded-lg px-3 py-1.5 focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 outline-none"
                                                     />
                                                 ) : (
-                                                    <div className="font-medium text-lg">
-                                                        ৳ {formatPrice(sub.price)}
-                                                    </div>
+                                                    <div className="font-medium text-lg">৳ {formatPrice(sub.price)}</div>
                                                 )}
                                             </div>
 
@@ -346,7 +360,7 @@ const ManageSubscription = () => {
                                             </div>
                                         </div>
 
-                                        {/* Category, Description, Platforms, Most Popular - unchanged */}
+                                        {/* Category */}
                                         <div className="space-y-1">
                                             <div className="flex items-center gap-2 text-gray-500 text-xs">
                                                 <Tag size={16} />
@@ -367,20 +381,17 @@ const ManageSubscription = () => {
                                                     ))}
                                                 </select>
                                             ) : (
-                                                <div className="font-medium">
-                                                    {getCategoryName(sub.category?._id || sub.category)}
-                                                </div>
+                                                <div className="font-medium">{getCategoryName(sub.category?._id || sub.category)}</div>
                                             )}
                                         </div>
 
+                                        {/* Description */}
                                         <div className="space-y-1">
                                             <div className="text-xs text-gray-500">Description</div>
                                             {isEditing ? (
                                                 <textarea
                                                     value={editForm.subscriptionDescription}
-                                                    onChange={(e) =>
-                                                        setEditForm({ ...editForm, subscriptionDescription: e.target.value })
-                                                    }
+                                                    onChange={(e) => setEditForm({ ...editForm, subscriptionDescription: e.target.value })}
                                                     rows={3}
                                                     className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm resize-y focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 outline-none"
                                                 />
@@ -391,6 +402,7 @@ const ManageSubscription = () => {
                                             )}
                                         </div>
 
+                                        {/* Regular Platforms */}
                                         <div className="space-y-2">
                                             <div className="text-xs text-gray-500">Included Platforms</div>
                                             {isEditing ? (
@@ -407,10 +419,8 @@ const ManageSubscription = () => {
                                                                     key={plat._id}
                                                                     type="button"
                                                                     onClick={() => togglePlatform(plat._id)}
-                                                                    className={`
-                                    flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all
-                                    ${isSelected ? 'bg-indigo-600 text-white shadow-sm' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}
-                                  `}
+                                                                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${isSelected ? 'bg-indigo-600 text-white shadow-sm' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                                                        }`}
                                                                 >
                                                                     {isSelected && <Check size={14} />}
                                                                     {plat.platformName}
@@ -422,18 +432,15 @@ const ManageSubscription = () => {
                                             ) : (
                                                 <div className="flex flex-wrap gap-2">
                                                     {sub.selectedPlan?.length > 0 ? (
-                                                        sub.selectedPlan.map((id, idx) => {
-                                                            const platform = platforms.find(p => p._id === id);
-                                                            return (
-                                                                <div
-                                                                    key={idx}
-                                                                    className="inline-flex items-center gap-1.5 px-3 py-1 bg-indigo-50 text-indigo-700 text-xs rounded-full"
-                                                                >
-                                                                    <Globe size={12} />
-                                                                    {platform?.platformName || 'Unknown'}
-                                                                </div>
-                                                            );
-                                                        })
+                                                        sub.selectedPlan.map((id, idx) => (
+                                                            <div
+                                                                key={idx}
+                                                                className="inline-flex items-center gap-1.5 px-3 py-1 bg-indigo-50 text-indigo-700 text-xs rounded-full"
+                                                            >
+                                                                <Globe size={12} />
+                                                                {getPlatformName(id, platforms)}
+                                                            </div>
+                                                        ))
                                                     ) : (
                                                         <span className="text-gray-400 italic">No platforms included</span>
                                                     )}
@@ -441,19 +448,64 @@ const ManageSubscription = () => {
                                             )}
                                         </div>
 
+                                        {/* Cookie Platforms */}
+                                        <div className="space-y-2 pt-3 border-t">
+                                            <div className="text-xs text-gray-500">Included Cookie Platforms</div>
+                                            {isEditing ? (
+                                                <div className="flex flex-wrap gap-2.5">
+                                                    {platformsLoading ? (
+                                                        <div className="text-gray-400 italic">Loading...</div>
+                                                    ) : cookiePlatforms.length === 0 ? (
+                                                        <div className="text-gray-400 italic">No cookie platforms available</div>
+                                                    ) : (
+                                                        cookiePlatforms.map((cp) => {
+                                                            const isSelected = editForm.selectedCookiePlatforms?.includes(cp._id);
+                                                            return (
+                                                                <button
+                                                                    key={cp._id}
+                                                                    type="button"
+                                                                    onClick={() => toggleCookiePlatform(cp._id)}
+                                                                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${isSelected ? 'bg-indigo-700 text-white shadow-sm' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                                                        }`}
+                                                                >
+                                                                    {isSelected && <Check size={14} />}
+                                                                    {cp.p_name || cp.platformName || 'Unnamed'}
+                                                                </button>
+                                                            );
+                                                        })
+                                                    )}
+                                                </div>
+                                            ) : (
+                                                <div className="flex flex-wrap gap-2">
+                                                    {sub.selectedCookiePlatforms?.length > 0 ? (
+                                                        sub.selectedCookiePlatforms.map((id, idx) => (
+                                                            <div
+                                                                key={idx}
+                                                                className="inline-flex items-center gap-1.5 px-3 py-1 bg-indigo-50/80 text-indigo-700 text-xs rounded-full"
+                                                            >
+                                                                <Globe size={12} />
+                                                                {getPlatformName(id, cookiePlatforms)}
+                                                            </div>
+                                                        ))
+                                                    ) : (
+                                                        <span className="text-gray-400 italic">No cookie platforms included</span>
+                                                    )}
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        {/* Most Popular Checkbox (only in edit mode) */}
                                         {isEditing && (
                                             <div className="pt-3 border-t">
                                                 <label className="flex items-center gap-2 cursor-pointer group">
                                                     <input
                                                         type="checkbox"
                                                         checked={editForm.isMostPopular}
-                                                        onChange={(e) =>
-                                                            setEditForm({ ...editForm, isMostPopular: e.target.checked })
-                                                        }
+                                                        onChange={(e) => setEditForm({ ...editForm, isMostPopular: e.target.checked })}
                                                         className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                                                     />
                                                     <div className="flex items-center gap-1.5 text-sm text-gray-700 group-hover:text-indigo-700 transition-colors">
-                                                        <Star size={15} className={editForm.isMostPopular ? "fill-amber-400 text-amber-500" : ""} />
+                                                        <Star size={15} className={editForm.isMostPopular ? 'fill-amber-400 text-amber-500' : ''} />
                                                         <span>Mark as Most Popular plan</span>
                                                     </div>
                                                 </label>
@@ -474,33 +526,25 @@ const ManageSubscription = () => {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0  flex  justify-center z-50 p-4"
+                        className="fixed inset-0 flex items-center justify-center z-50 p-4 bg-black/40 backdrop-blur-sm"
                         onClick={handleCancel}
                     >
                         <motion.div
                             initial={{ scale: 0.95, opacity: 0, y: 20 }}
                             animate={{ scale: 1, opacity: 1, y: 0 }}
                             exit={{ scale: 0.95, opacity: 0, y: 20 }}
-                            transition={{ duration: 0.2 }}
-                            className="bg-white rounded-2xl shadow-2xl max-w-md h-fit w-full overflow-hidden"
+                            className="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden"
                             onClick={(e) => e.stopPropagation()}
                         >
-                            {/* Header */}
-                            <div className="px-6 py-5 border-b bg-gradient-to-r from-rose-500 to-yellow-500  flex items-center gap-3">
-                                <AlertCircle className="h-6 w-6 text-indigo-50" />
-                                <h3 className="text-lg font-semibold text-gray-50">
-                                    Confirm Action
-                                </h3>
+                            <div className="px-6 py-5 border-b bg-gradient-to-r from-rose-500 to-rose-600 flex items-center gap-3">
+                                <AlertCircle className="h-6 w-6 text-white" />
+                                <h3 className="text-lg font-semibold text-white">Confirm Action</h3>
                             </div>
 
-                            {/* Body */}
                             <div className="p-6">
-                                <p className="text-gray-700 leading-relaxed">
-                                    {confirmMessage}
-                                </p>
+                                <p className="text-gray-700 leading-relaxed">{confirmMessage}</p>
                             </div>
 
-                            {/* Footer */}
                             <div className="px-6 py-4 border-t bg-gray-50 flex justify-end gap-3">
                                 <button
                                     onClick={handleCancel}
@@ -510,10 +554,7 @@ const ManageSubscription = () => {
                                 </button>
                                 <button
                                     onClick={handleConfirm}
-                                    className={`px-5 py-2.5 rounded-lg font-medium text-white transition-colors flex items-center gap-2
-                    ${confirmAction === 'delete'
-                                            ? 'bg-red-600 hover:bg-red-700'
-                                            : 'bg-indigo-600 hover:bg-indigo-700'
+                                    className={`px-5 py-2.5 rounded-lg font-medium text-white transition-colors flex items-center gap-2 ${confirmAction === 'delete' ? 'bg-red-600 hover:bg-red-700' : 'bg-indigo-600 hover:bg-indigo-700'
                                         }`}
                                 >
                                     {confirmAction === 'delete' ? 'Delete' : 'Save Changes'}

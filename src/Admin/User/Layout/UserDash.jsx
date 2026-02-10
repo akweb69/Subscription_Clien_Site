@@ -56,11 +56,11 @@ const FlipCard = ({ value, label, urgency = 'normal' }) => {
     const s = schemes[urgency] || schemes.normal;
 
     return (
-        <div className="flex flex-col items-center gap-1.5">
+        <div className="flex flex-col w-full md:w-fit items-center gap-1.5">
             <div className="relative">
                 <div
                     className={`
-            w-10 h-16 sm:w-20 sm:h-24 rounded-xl bg-gradient-to-br ${s.bg}
+            w-12 h-16 sm:w-20 sm:h-24 rounded-xl bg-gradient-to-br ${s.bg}
             shadow-xl overflow-hidden transform-gpu
             ${isFlipping ? 'animate-flip' : ''}
           `}
@@ -136,7 +136,7 @@ const Countdown = ({ expiryDate }) => {
     }
 
     return (
-        <div className="flex items-center gap-3 sm:gap-4 px-5 py-4 rounded-2xl bg-white/70 backdrop-blur border border-gray-200/80 shadow-sm">
+        <div className="flex items-center gap-1 md:gap-3 w-full sm:gap-4 px-5 py-4 rounded-2xl bg-white/70 backdrop-blur border border-gray-200/80 shadow-sm">
             {Number(timeLeft.d) > 0 && (
                 <>
                     <FlipCard value={timeLeft.d} label="DAYS" urgency={status} />
@@ -257,7 +257,7 @@ export default function UserDashboard() {
             </div>
 
             {/* Active Subscriptions */}
-            <section className="bg-white rounded-2xl shadow border border-gray-100 overflow-hidden">
+            <section className="bg-white rounded-2xl sm:shadow sm:border sm:border-gray-100 overflow-hidden">
                 <div className="md:px-6  md:py-5 border-b bg-gradient-to-r from-emerald-50 to-teal-50">
                     <h2 className="text-xl font-semibold text-gray-800 flex items-center gap-3">
                         <div className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse" />
